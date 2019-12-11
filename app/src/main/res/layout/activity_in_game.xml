@@ -30,13 +30,14 @@
 
     <ImageView
         android:id="@+id/imageViewPicture"
-        android:layout_width="131dp"
-        android:layout_height="276dp"
+        android:layout_width="108dp"
+        android:layout_height="230dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:background="@drawable/picture0"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/picture0" />
+        app:srcCompat="@drawable/picture1" />
 
     <TableLayout
         android:layout_width="395dp"

@@ -35,6 +35,7 @@ import java.util.Random;
 public class InGameActivity extends AppCompatActivity {
     ArrayList<QuestionOBJ> lstQuestion;
     int pos=0;
+    int  pic=0;
     TextView timeCountDown;
     Button DA1;
     ImageButton Call;
@@ -46,6 +47,7 @@ public class InGameActivity extends AppCompatActivity {
     TextView m_btn_da3;
     TextView m_btn_da4;
     ImageView img_timer;
+    ImageView picture;
 
 
 
@@ -54,7 +56,7 @@ public class InGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_game);
         Anhxa();
-        showQuestion(pos);
+        showQuestion(pos);//d
         CountDown();
 
     }
@@ -81,7 +83,7 @@ public class InGameActivity extends AppCompatActivity {
             return false;
         }
     }
-    public void CountDown(){
+    public void CountDown() {
 
         final Animation animTimerNhapnhay= AnimationUtils.loadAnimation(this, R.anim.anim_timer_nhapnhay);
         final Animation animTimerNhapnhaycucmanh= AnimationUtils.loadAnimation(this, R.anim.anim_timer_nhapnhaycucmanh);
@@ -113,6 +115,7 @@ public class InGameActivity extends AppCompatActivity {
 
 
             }
+
         };
         countDownTimer.start();
 
@@ -128,6 +131,7 @@ public class InGameActivity extends AppCompatActivity {
         Call=(ImageButton)findViewById(R.id.imageButtonPhone);
         People=(ImageButton)findViewById(R.id.imageButtonPeople);
         img_timer=(ImageView)findViewById(R.id.imageViewTimer);
+        picture=(ImageView)findViewById(R.id.imageViewPicture);
     }
     public void CancelCountDown(){
         if(countDownTimer!=null)
@@ -154,12 +158,59 @@ public class InGameActivity extends AppCompatActivity {
         }
 
     }
+    public void upScore(int pic){
+        int pictureArray[]= {
+                R.drawable.picture1,
+                R.drawable.picture2,
+                R.drawable.picture3,
+                R.drawable.picture4,
+                R.drawable.picture5,
+                R.drawable.picture6,
+                R.drawable.picture7,
+                R.drawable.picture8,
+                R.drawable.picture9,
+                R.drawable.picture10,
+                R.drawable.picture11,
+                R.drawable.picture12,
+                R.drawable.picture13,
+                R.drawable.picture14,
+                R.drawable.picture15,
+                R.drawable.picture0
+        };
+
+        picture.setImageResource(pictureArray[pic]);
+
+    }
     public  void onClickTraLoi(View view) {
         pos++;
         if(pos>=lstQuestion.size()) pos = lstQuestion.size()-(lstQuestion.size()-1);
         showQuestion(pos);
         CancelCountDown();
         CountDown();
+        pic++;
+        if(pic==15){
+            AlertDialog.Builder alertDialogBuilderwin = new AlertDialog.Builder(InGameActivity.this);
+            alertDialogBuilderwin
+                    .setTitle("Thông Báo ")
+                    .setMessage("Bạn Đã Trở Thành Triệu Phú! ")
+                    .setCancelable(false)
+                    .setPositiveButton("New Game", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(new Intent(getApplicationContext(), LinhVucActivity.class));
+                        }
+                    })
+                    .setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //System.exit(0);
+                            finishAffinity();
+                        }
+                    });
+            alertDialogBuilderwin.show();
+        }
+        upScore(pic);
+
     }
     public  void onClickBack(View view){
         CancelCountDown();
