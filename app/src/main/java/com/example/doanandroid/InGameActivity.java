@@ -158,29 +158,29 @@ public class InGameActivity extends AppCompatActivity {
         }
 
     }
-    public void upScore(int pic){
-        int pictureArray[]= {
-                R.drawable.picture1,
-                R.drawable.picture2,
-                R.drawable.picture3,
-                R.drawable.picture4,
-                R.drawable.picture5,
-                R.drawable.picture6,
-                R.drawable.picture7,
-                R.drawable.picture8,
-                R.drawable.picture9,
-                R.drawable.picture10,
-                R.drawable.picture11,
-                R.drawable.picture12,
-                R.drawable.picture13,
-                R.drawable.picture14,
-                R.drawable.picture15,
-                R.drawable.picture0
-        };
-
-        picture.setImageResource(pictureArray[pic]);
-
-    }
+//    public void upScore(int pic){
+//        int pictureArray[]= {
+//                R.drawable.picture1,
+//                R.drawable.picture2,
+//                R.drawable.picture3,
+//                R.drawable.picture4,
+//                R.drawable.picture5,
+//                R.drawable.picture6,
+//                R.drawable.picture7,
+//                R.drawable.picture8,
+//                R.drawable.picture9,
+//                R.drawable.picture10,
+//                R.drawable.picture11,
+//                R.drawable.picture12,
+//                R.drawable.picture13,
+//                R.drawable.picture14,
+//                R.drawable.picture15,
+//                R.drawable.picture0
+//        };
+//
+//        picture.setImageResource(pictureArray[pic]);
+//
+//    }
     public  void onClickTraLoi(View view) {
         pos++;
         if(pos>=lstQuestion.size()) pos = lstQuestion.size()-(lstQuestion.size()-1);
@@ -188,29 +188,32 @@ public class InGameActivity extends AppCompatActivity {
         CancelCountDown();
         CountDown();
         pic++;
-        if(pic==15){
-            AlertDialog.Builder alertDialogBuilderwin = new AlertDialog.Builder(InGameActivity.this);
-            alertDialogBuilderwin
-                    .setTitle("Thông Báo ")
-                    .setMessage("Bạn Đã Trở Thành Triệu Phú! ")
-                    .setCancelable(false)
-                    .setPositiveButton("New Game", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            startActivity(new Intent(getApplicationContext(), LinhVucActivity.class));
-                        }
-                    })
-                    .setNegativeButton("Exit", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //System.exit(0);
-                            finishAffinity();
-                        }
-                    });
-            alertDialogBuilderwin.show();
-        }
-        upScore(pic);
+//        if(pic==15){
+//            DialogWin();
+//        }
+//        upScore(pic);
 
+    }
+    public void DialogWin(){
+        AlertDialog.Builder alertDialogBuilderwin = new AlertDialog.Builder(InGameActivity.this);
+        alertDialogBuilderwin
+                .setTitle("Thông Báo ")
+                .setMessage("Bạn Đã Trở Thành Triệu Phú! ")
+                .setCancelable(false)
+                .setPositiveButton("New Game", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(getApplicationContext(), LinhVucActivity.class));
+                    }
+                })
+                .setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //System.exit(0);
+                        finishAffinity();
+                    }
+                });
+        alertDialogBuilderwin.show();
     }
     public  void onClickBack(View view){
         CancelCountDown();
