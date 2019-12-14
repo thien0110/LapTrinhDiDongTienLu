@@ -4,13 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/begin"
-    android:backgroundTint="#6F160E0E"
-    android:backgroundTintMode="src_over"
     tools:context=".LinhVucActivity">
 
     <Button
+
         android:id="@+id/buttonLinhVuc1"
-        android:background="@null"
+        android:background="@drawable/custom_button_dapan"
         android:textColor="#fff"
         android:layout_width="245dp"
         android:layout_height="wrap_content"
@@ -21,7 +20,7 @@
     <Button
         android:id="@+id/buttonLinhVuc2"
         android:layout_width="245dp"
-        android:background="@null"
+        android:background="@drawable/custom_button_dapan"
         android:textColor="#fff"
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content"

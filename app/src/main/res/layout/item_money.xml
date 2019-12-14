@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_item_money"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
@@ -9,12 +10,12 @@
         android:id="@+id/textViewCauhoiNum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
         android:layout_weight="1"
         android:text="@string/textviewSoCau"
-        android:textColor="#fff"
         android:textAllCaps="true"
+        android:textColor="#fff"
         android:textSize="14sp"
-        android:layout_marginStart="5dp"
         android:textStyle="bold" />
 
     <TextView
@@ -23,8 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/textviewMoney"
-        android:textColor="#fff"
         android:textAllCaps="true"
+        android:textColor="#fff"
         android:textSize="14sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 </LinearLayout>

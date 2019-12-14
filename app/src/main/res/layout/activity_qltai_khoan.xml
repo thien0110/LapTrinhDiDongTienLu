@@ -5,13 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/begin"
-    android:gravity="center"
-    tools:context=".LoginActivity">
+    tools:context=".QLTaiKhoanActivity">
+
+    <ImageView
+
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:id="@+id/imageViewAvatar"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        app:srcCompat="@drawable/doanchibinh" />
+
+    <TextView
+        android:id="@+id/textViewDoiAvatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="#fff"
+        android:layout_marginBottom="10dp"
+        android:text="Đổi hình đại diện"
+        android:layout_centerInParent="true"
+        android:layout_below="@id/imageViewAvatar"
+        />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_below="@id/textViewDoiAvatar"
+        android:layout_centerInParent="true">
 
         <EditText
             android:textAlignment="center"
@@ -19,7 +42,7 @@
             android:layout_marginBottom="10dp"
             android:textColor="#fff"
             android:textColorHint="#A59D9D"
-            android:hint="Nhập tài khoản"
+            android:hint="Có sẵn Tên Tài Khoản"
             android:id="@+id/editTextTaiKhoan"
             android:layout_width="250dp"
             android:layout_height="50dp"
@@ -29,8 +52,31 @@
             android:layout_marginBottom="10dp"
             android:textColor="#fff"
             android:textColorHint="#A59D9D"
-            android:hint="Nhập mật khẩu"
+            android:hint="Có Sẳn Email, không được sửa"
+            android:id="@+id/editTextEmail"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:background="@drawable/custom_button_dapan" />
+
+
+        <EditText
+            android:textAlignment="center"
+
+            android:layout_marginBottom="10dp"
+            android:textColor="#fff"
+            android:textColorHint="#A59D9D"
+            android:hint="Đổi Mật Khẩu"
             android:id="@+id/editTextMatKhau"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:background="@drawable/custom_button_dapan" />
+        <EditText
+            android:textAlignment="center"
+            android:layout_marginBottom="10dp"
+            android:textColor="#fff"
+            android:textColorHint="#A59D9D"
+            android:hint="Xác Nhận Mật Khẩu"
+            android:id="@+id/editTextXacNhanMatKhau"
             android:layout_width="250dp"
             android:layout_height="50dp"
             android:background="@drawable/custom_button_dapan" />
@@ -41,23 +87,8 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_button_dapan"
-            android:id="@+id/buttonDangNhap"
-            android:text="Đăng Nhập"/>
-        <Button
-            android:layout_marginBottom="10dp"
-            android:textColor="#fff"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/custom_button_dapan"
-            android:id="@+id/buttonQuenMatKhau"
-            android:text="Quên Mật Khẩu"/>
-        <Button
-            android:layout_marginBottom="10dp"
-            android:textColor="#fff"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/custom_button_dapan"
-            android:id="@+id/buttonDangKi"
-            android:text="Đăng Ký"/>
+            android:id="@+id/buttonCapNhat"
+            android:text="Cập Nhật"/>
     </LinearLayout>
+
 </RelativeLayout>

@@ -4,19 +4,61 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/begin"
-    android:backgroundTint="#72070606"
-    android:backgroundTintMode="src_over"
+
     tools:context=".MainActivity">
 
 
-    <Button
-        android:id="@+id/buttonVaoGame"
-
-        android:layout_width="245dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:background="@null"
-        android:onClick="logOnClick"
-        android:text="@string/v_o_game"
-        android:textColor="#FFFEFE" />
+        android:layout_marginTop="320dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/buttonVaoGame"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/custom_button_dapan"
+            android:onClick="logOnClick"
+            android:text="@string/v_o_game"
+            android:textColor="#FFFEFE" />
+
+        <Button
+            android:id="@+id/buttonQuanLyTaiKhoan"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/custom_button_dapan"
+            android:text="QUẢN LÝ TÀI KHOẢN"
+            android:textColor="#FFFEFE" />
+
+        <Button
+            android:id="@+id/buttonLichSuChoi"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/custom_button_dapan"
+            android:text="LỊCH SỬ CHƠI"
+            android:textColor="#FFFEFE" />
+
+        <Button
+            android:id="@+id/buttonBangXepHang"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/custom_button_dapan"
+            android:text="BẢNG XẾP HẠNG"
+            android:textColor="#FFFEFE" />
+
+        <Button
+            android:id="@+id/buttonMuaCredit"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_button_dapan"
+            android:text="MUA CREDIT"
+            android:textColor="#FFFEFE" />
+    </LinearLayout>
+
 </RelativeLayout>

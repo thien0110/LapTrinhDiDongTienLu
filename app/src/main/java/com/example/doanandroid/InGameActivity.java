@@ -18,6 +18,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class InGameActivity extends AppCompatActivity {
@@ -52,6 +54,7 @@ public class InGameActivity extends AppCompatActivity {
     ImageView img_timer;
     ListView listViewMoney;
     ArrayList<Score> arrScore;
+    LinearLayout linearLayoutItem;
 
 
 
@@ -64,6 +67,7 @@ public class InGameActivity extends AppCompatActivity {
         CountDown();
         lstScore();
         nhacNen();
+
     }
     private Boolean get_lstQuestion(String jSonString){
         try {
@@ -131,10 +135,9 @@ public class InGameActivity extends AppCompatActivity {
         Call= findViewById(R.id.imageButtonPhone);
         People= findViewById(R.id.imageButtonPeople);
         img_timer= findViewById(R.id.imageViewTimer);
-
         listViewMoney=findViewById(R.id.listViewScore);
         arrScore=new ArrayList<Score>();
-
+        linearLayoutItem=findViewById(R.id.layout_item_money);
     }
     public void CancelCountDown(){
         if(countDownTimer!=null)
@@ -168,6 +171,12 @@ public class InGameActivity extends AppCompatActivity {
         showQuestion(pos);
         CancelCountDown();
         CountDown();
+
+
+    }
+    public  void upScore(){
+        Score score=arrScore.get(0);
+
 
 
     }

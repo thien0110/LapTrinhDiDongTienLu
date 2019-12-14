@@ -13,6 +13,8 @@ import com.example.doanandroid.model.Score;
 
 import java.util.List;
 
+import static com.example.doanandroid.R.color.colorXanhdam;
+
 public class ScoreAdapter extends BaseAdapter {
     private Context myContext;
     private int myLayout;
@@ -40,13 +42,13 @@ public class ScoreAdapter extends BaseAdapter {
 
     @SuppressLint({"SetTextI18n", "ViewHolder"})
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(int i, View dongview, ViewGroup viewGroup) {
         LayoutInflater inflater= (LayoutInflater) myContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view=inflater.inflate(myLayout,null);
-        TextView tv_number=view.findViewById(R.id.textViewCauhoiNum);
-        TextView tv_money=view.findViewById(R.id.textViewMoney);
+        dongview=inflater.inflate(myLayout,null);
+        TextView tv_number=dongview.findViewById(R.id.textViewCauhoiNum);
+        TextView tv_money=dongview.findViewById(R.id.textViewMoney);
         tv_number.setText(String.valueOf(arrScore.get(i).mNumber));
         tv_money.setText(arrScore.get(i).mMoney +" VND");
-        return view;
+        return dongview;
     }
 }
