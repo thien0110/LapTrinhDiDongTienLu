@@ -43,7 +43,7 @@
             android:layout_width="120dp"
             android:layout_height="310dp"
             android:layout_alignParentEnd="true"
-            android:background="@drawable/custom_button_dapan" />
+            android:background="@drawable/custom_bangdiem" />
 
     </RelativeLayout>
 
@@ -57,7 +57,8 @@
 
 
         <TextView
-
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:id="@+id/textViewNdCauHoi"
             android:layout_width="354dp"
             android:layout_height="69dp"
@@ -142,14 +143,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
+        android:background="@drawable/custom_bangdiem"
         android:weightSum="4">
 
-        <ImageButton
+        <Button
             android:id="@+id/imageButtonPause"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:background="@android:color/background_dark"
+            android:background="@drawable/custom_button_trogiup"
             android:contentDescription="TODO"
             android:onClick="onClickPause"
             app:srcCompat="@android:drawable/ic_media_pause" />
@@ -159,7 +161,7 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:background="@android:color/background_dark"
+            android:background="@drawable/custom_button_trogiup"
             android:contentDescription="TODO"
             android:onClick="onClick50"
             app:srcCompat="@drawable/jpge50" />
@@ -169,7 +171,7 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:background="@android:color/background_dark"
+            android:background="@drawable/custom_button_trogiup"
             android:contentDescription="TODO"
             android:onClick="onClickCall"
             app:srcCompat="@drawable/jpge_phone" />
@@ -179,7 +181,7 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:background="@android:color/background_dark"
+            android:background="@drawable/custom_button_trogiup"
             android:contentDescription="TODO"
             android:onClick="onClickPeople"
             app:srcCompat="@drawable/jpge_people" />
