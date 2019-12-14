@@ -8,8 +8,10 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -57,14 +59,11 @@ public class InGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_game);
-
         Anhxa();
         showQuestion(pos);//d
         CountDown();
         lstScore();
-
-
-
+        nhacNen();
     }
     private Boolean get_lstQuestion(String jSonString){
         try {
@@ -141,7 +140,6 @@ public class InGameActivity extends AppCompatActivity {
         if(countDownTimer!=null)
             countDownTimer.cancel();
     }
-    @SuppressLint("SetTextI18n")
     public void showQuestion(int pos){
         Intent intent = getIntent();
         String jSonString = intent.getStringExtra("message");
@@ -243,13 +241,16 @@ public class InGameActivity extends AppCompatActivity {
                 });
         alertDialogBuilder.show();
     }
-    public void DialogPeople(){
+    public void DialogPeople (){
+
         final Dialog dialogPeople=new Dialog(this);
         dialogPeople.setContentView(R.layout.dialog_people);
         BarChart barChart= dialogPeople.findViewById(R.id.barChart);
         barChart.setDrawBarShadow(false);
         barChart.setTouchEnabled(false);
         barChart.setDrawValueAboveBar(false);
+        barChart.animateXY(1,3000);
+
 
 
         ArrayList<BarEntry>barEntries=new ArrayList<>();
@@ -269,8 +270,10 @@ public class InGameActivity extends AppCompatActivity {
 
         BarData data=new BarData(barDataSet);
         data.setBarWidth(0.8f);
+
         barChart.setData(data);
         dialogPeople.show();
+
     }
     public void onClickPause(View view){
         final Dialog dialogPause=new Dialog(this);
@@ -313,6 +316,9 @@ public class InGameActivity extends AppCompatActivity {
         listViewMoney.setAdapter(scoreAdapter);
 
     }
+    public void nhacNen(){
+        MediaPlayer mediaPlayer=MediaPlayer.create(InGameActivity.this,R.raw.kbc_tune);
+        mediaPlayer.start();
 
-
+    }
 }
