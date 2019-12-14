@@ -1,4 +1,4 @@
-package com.example.doanandroid;
+package com.example.doanandroid.model;
 
 import org.json.JSONException;
 import org.json.JSONObject;

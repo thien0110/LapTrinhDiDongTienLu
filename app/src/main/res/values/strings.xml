@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">DoAnAndroid</string>
+    <string name="linhvuc1">LinhVuc1</string>
+    <string name="linhvuc2">LinhVuc2</string>
+    <string name="v_o_game">Vào Game</string>
+    <string name="textviewSoCau">TextView</string>
+    <string name="textviewMoney">TextView</string>
+    <string name="buttonA">Button</string>
+    <string name="buttonB">Button</string>
+    <string name="buttonC">Button</string>
+    <string name="buttonD">Button</string>
 </resources>

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_begin"
+    android:background="@drawable/begin"
     android:backgroundTint="#72070606"
     android:backgroundTintMode="src_over"
     tools:context=".MainActivity">
@@ -12,11 +11,12 @@
 
     <Button
         android:id="@+id/buttonVaoGame"
-        android:layout_width="wrap_content"
+
+        android:layout_width="245dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="@android:color/holo_blue_dark"
+        android:background="@null"
         android:onClick="logOnClick"
-        android:text="Vào Game "
+        android:text="@string/v_o_game"
         android:textColor="#FFFEFE" />
 </RelativeLayout>

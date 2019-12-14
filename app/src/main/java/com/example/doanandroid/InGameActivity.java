@@ -16,9 +16,12 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.doanandroid.adapter.ScoreAdapter;
+import com.example.doanandroid.model.QuestionOBJ;
+import com.example.doanandroid.model.Score;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -35,9 +38,7 @@ import java.util.Random;
 public class InGameActivity extends AppCompatActivity {
     ArrayList<QuestionOBJ> lstQuestion;
     int pos=0;
-    int  pic=0;
     TextView timeCountDown;
-    Button DA1;
     ImageButton Call;
     ImageButton People;
     CountDownTimer countDownTimer=null;
@@ -47,7 +48,8 @@ public class InGameActivity extends AppCompatActivity {
     TextView m_btn_da3;
     TextView m_btn_da4;
     ImageView img_timer;
-    ImageView picture;
+    ListView listViewMoney;
+    ArrayList<Score> arrScore;
 
 
 
@@ -55,9 +57,13 @@ public class InGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_game);
+
         Anhxa();
         showQuestion(pos);//d
         CountDown();
+        lstScore();
+
+
 
     }
     private Boolean get_lstQuestion(String jSonString){
@@ -66,7 +72,7 @@ public class InGameActivity extends AppCompatActivity {
             JSONArray jr = new JSONArray(jSonString);
             for(int i=0;i<jr.length();i++)
             {
-                JSONObject jb = (JSONObject)jr.getJSONObject(i);
+                JSONObject jb = jr.getJSONObject(i);
                 QuestionOBJ quiz=new QuestionOBJ();
                 quiz.NoiDung = jb.getString("noi_dung");
                 quiz.DapAn1 = jb.getString("phuong_an_A");
@@ -112,35 +118,34 @@ public class InGameActivity extends AppCompatActivity {
                 timeCountDown.setText("0");
                 //Toast.makeText(InGameActivity.this,"GAMEOVER",Toast.LENGTH_SHORT).show();
                 DialogGameOver();
-
-
             }
-
         };
         countDownTimer.start();
-
     }
     public void Anhxa(){
-        timeCountDown=(TextView)findViewById(R.id.textViewTime);
-        DA1=(Button)findViewById(R.id.buttonDA1);
-        m_NdCauhoi=(TextView)findViewById(R.id.textViewNdCauHoi);
-        m_btn_da1=(Button)findViewById(R.id.buttonDA1);
+        timeCountDown= findViewById(R.id.textViewTime);
+        m_NdCauhoi= findViewById(R.id.textViewNdCauHoi);
+        m_btn_da1= findViewById(R.id.buttonDA1);
         m_btn_da2=(Button)findViewById(R.id.buttonDA2);
         m_btn_da3=(Button)findViewById(R.id.buttonDA3);
         m_btn_da4=(Button)findViewById(R.id.buttonDA4);
-        Call=(ImageButton)findViewById(R.id.imageButtonPhone);
-        People=(ImageButton)findViewById(R.id.imageButtonPeople);
-        img_timer=(ImageView)findViewById(R.id.imageViewTimer);
-        picture=(ImageView)findViewById(R.id.imageViewPicture);
+        Call= findViewById(R.id.imageButtonPhone);
+        People= findViewById(R.id.imageButtonPeople);
+        img_timer= findViewById(R.id.imageViewTimer);
+
+        listViewMoney=findViewById(R.id.listViewScore);
+        arrScore=new ArrayList<Score>();
+
     }
     public void CancelCountDown(){
         if(countDownTimer!=null)
             countDownTimer.cancel();
     }
+    @SuppressLint("SetTextI18n")
     public void showQuestion(int pos){
         Intent intent = getIntent();
         String jSonString = intent.getStringExtra("message");
-        if( get_lstQuestion(jSonString)==true)
+        if(get_lstQuestion(jSonString)==true)
         {
             m_NdCauhoi.setText(lstQuestion.get(pos).NoiDung);
             m_btn_da1.setText("A. "+lstQuestion.get(pos).DapAn1);
@@ -158,40 +163,14 @@ public class InGameActivity extends AppCompatActivity {
         }
 
     }
-//    public void upScore(int pic){
-//        int pictureArray[]= {
-//                R.drawable.picture1,
-//                R.drawable.picture2,
-//                R.drawable.picture3,
-//                R.drawable.picture4,
-//                R.drawable.picture5,
-//                R.drawable.picture6,
-//                R.drawable.picture7,
-//                R.drawable.picture8,
-//                R.drawable.picture9,
-//                R.drawable.picture10,
-//                R.drawable.picture11,
-//                R.drawable.picture12,
-//                R.drawable.picture13,
-//                R.drawable.picture14,
-//                R.drawable.picture15,
-//                R.drawable.picture0
-//        };
-//
-//        picture.setImageResource(pictureArray[pic]);
-//
-//    }
+
     public  void onClickTraLoi(View view) {
         pos++;
         if(pos>=lstQuestion.size()) pos = lstQuestion.size()-(lstQuestion.size()-1);
         showQuestion(pos);
         CancelCountDown();
         CountDown();
-        pic++;
-//        if(pic==15){
-//            DialogWin();
-//        }
-//        upScore(pic);
+
 
     }
     public void DialogWin(){
@@ -234,7 +213,7 @@ public class InGameActivity extends AppCompatActivity {
     public void DialogCalling() {
         final Dialog dialogCall=new Dialog(this);
         dialogCall.setContentView(R.layout.dialog_calling);
-        Button imageButtonEndCall=(Button)dialogCall.findViewById(R.id.buttonEndCall);
+        Button imageButtonEndCall= dialogCall.findViewById(R.id.buttonEndCall);
         imageButtonEndCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -267,7 +246,7 @@ public class InGameActivity extends AppCompatActivity {
     public void DialogPeople(){
         final Dialog dialogPeople=new Dialog(this);
         dialogPeople.setContentView(R.layout.dialog_people);
-        BarChart barChart=(BarChart)dialogPeople.findViewById(R.id.barChart);
+        BarChart barChart= dialogPeople.findViewById(R.id.barChart);
         barChart.setDrawBarShadow(false);
         barChart.setTouchEnabled(false);
         barChart.setDrawValueAboveBar(false);
@@ -296,9 +275,9 @@ public class InGameActivity extends AppCompatActivity {
     public void onClickPause(View view){
         final Dialog dialogPause=new Dialog(this);
         dialogPause.setContentView(R.layout.dialog_pause);
-        Button buttonResume=(Button)dialogPause.findViewById(R.id.buttonResume);
-        Button buttonNewGame=(Button)dialogPause.findViewById(R.id.buttonNewgame);
-        Button buttonExit=(Button)dialogPause.findViewById(R.id.buttonExit);
+        Button buttonResume= dialogPause.findViewById(R.id.buttonResume);
+        Button buttonNewGame= dialogPause.findViewById(R.id.buttonNewgame);
+        Button buttonExit= dialogPause.findViewById(R.id.buttonExit);
 
         buttonResume.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -324,6 +303,15 @@ public class InGameActivity extends AppCompatActivity {
         });
         CancelCountDown();
         dialogPause.show();
+    }
+    public void lstScore(){
+        for(int i=15;i>=1;i--){
+            arrScore.add(new Score(i,10000*i));
+        }
+
+        ScoreAdapter scoreAdapter=new ScoreAdapter(InGameActivity.this,R.layout.item_money,arrScore);
+        listViewMoney.setAdapter(scoreAdapter);
+
     }
 
 
