@@ -7,10 +7,64 @@
     android:background="@drawable/begin"
     android:gravity="center"
     tools:context=".LoginActivity">
+
+    <ImageView
+        android:id="@+id/imageViewDollar1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/d11" />
+    <ImageView
+        android:id="@+id/imageViewDollar2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/d15" />
+    <ImageView
+        android:id="@+id/imageViewDollar3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_toLeftOf="@id/imageViewDollar4"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/d12" />
+    <ImageView
+        android:id="@+id/imageViewDollar4"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/d2" />
+    <ImageView
+        android:id="@+id/imageViewDollar5"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_toRightOf="@id/imageViewDollar2"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/d7" />
+
+    <ImageView
+        android:id="@+id/imageViewLight"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/light" />
+
+    <ImageView
+        android:id="@+id/imageViewLight2"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/light" />
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:paddingBottom="80dp"
         android:gravity="center">
 
         <EditText
@@ -42,6 +96,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/custom_button_dapan"
             android:id="@+id/buttonDangNhap"
+            android:onClick="onClickDangNhap"
             android:text="Đăng Nhập"/>
         <Button
             android:layout_marginBottom="10dp"
@@ -50,6 +105,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/custom_button_dapan"
             android:id="@+id/buttonQuenMatKhau"
+            android:onClick="onClickLumMatKhau"
             android:text="Quên Mật Khẩu"/>
         <Button
             android:layout_marginBottom="10dp"
@@ -58,6 +114,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/custom_button_dapan"
             android:id="@+id/buttonDangKi"
+            android:onClick="onClickDangKy"
             android:text="Đăng Ký"/>
     </LinearLayout>
 </RelativeLayout>

@@ -1,31 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/begin"
     tools:context=".LinhVucActivity">
+    <ImageView
+        android:id="@+id/imageViewLight"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/light" />
 
-    <Button
-
-        android:id="@+id/buttonLinhVuc1"
-        android:background="@drawable/custom_button_dapan"
-        android:textColor="#fff"
-        android:layout_width="245dp"
+    <ImageView
+        android:id="@+id/imageViewLight2"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/light" />
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:onClick="ChonLinhVucOnClick"
-        android:text="@string/linhvuc1" />
+        android:paddingBottom="200dp">
+        <Button
 
-    <Button
-        android:id="@+id/buttonLinhVuc2"
-        android:layout_width="245dp"
-        android:background="@drawable/custom_button_dapan"
-        android:textColor="#fff"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/buttonLinhVuc1"
-        android:layout_centerInParent="true"
-        android:onClick="ChonLinhVucOnClick"
-        android:text="@string/linhvuc2" />
+            android:id="@+id/buttonLinhVuc1"
+            android:background="@drawable/custom_button_dapan"
+            android:textColor="#fff"
+            android:layout_width="245dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:onClick="ChonLinhVucOnClick"
+            android:text="Thể Thao" />
+
+        <Button
+            android:id="@+id/buttonLinhVuc2"
+            android:layout_width="245dp"
+            android:background="@drawable/custom_button_dapan"
+            android:textColor="#fff"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/buttonLinhVuc1"
+            android:layout_centerInParent="true"
+            android:onClick="ChonLinhVucOnClick"
+            android:text="Lịch Sử" />
+        <Button
+            android:id="@+id/buttonLinhVuc3"
+            android:layout_width="245dp"
+            android:background="@drawable/custom_button_dapan"
+            android:textColor="#fff"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/buttonLinhVuc1"
+            android:layout_centerInParent="true"
+            android:onClick="ChonLinhVucOnClick"
+            android:text="Âm Nhạc" />
+    </LinearLayout>
+
+
 </RelativeLayout>

@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     android:background="@drawable/begin"
     tools:context=".QLTaiKhoanActivity">
+    <ImageView
+        android:id="@+id/imageViewLight"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/light" />
+
+    <ImageView
+        android:id="@+id/imageViewLight2"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/light" />
 
     <ImageView
 
