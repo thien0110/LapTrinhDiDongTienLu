@@ -215,7 +215,7 @@
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:background="@drawable/custom_bangdiem"
-        android:weightSum="5">
+        android:weightSum="6">
 
         <Button
             android:id="@+id/imageButtonPause"
@@ -231,6 +231,15 @@
             android:textColor="#fff"
             android:textStyle="bold"
             app:srcCompat="@android:drawable/ic_media_pause" />
+        <ImageButton
+            android:id="@+id/imageButtonIgnore"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/custom_button_trogiup"
+            android:contentDescription="TODO"
+            android:onClick="onClickBuyQues"
+            app:srcCompat="@drawable/dollar_icon" />
 
         <ImageButton
             android:id="@+id/imageButton50"
@@ -261,7 +270,7 @@
             android:background="@drawable/custom_button_trogiup"
             android:contentDescription="TODO"
             android:onClick="onClickPeople"
-            app:srcCompat="@drawable/people_icon_x" />
+            app:srcCompat="@drawable/people_icon" />
 
         <ImageButton
             android:id="@+id/imageButtonReset"
@@ -269,6 +278,7 @@
             android:layout_height="50dp"
             android:background="@drawable/custom_button_trogiup"
             android:layout_weight="1"
+            android:onClick="onClickReset"
             app:srcCompat="@drawable/reset_icon" />
     </LinearLayout>
 

@@ -19,12 +19,14 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +43,11 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
+import java.util.function.BiConsumer;
 
 @SuppressWarnings("deprecation")
 public class InGameActivity extends AppCompatActivity {
@@ -51,9 +57,9 @@ public class InGameActivity extends AppCompatActivity {
     ArrayList<QuestionOBJ> lstQuestion;
     int pos=0;
     Handler handler;
-    ImageButton Call,People,btn_50;
+    ImageButton Call,People,btn_50,btn_reset;
     CountDownTimer countDownTimer=null;
-    TextView m_NdCauhoi,m_btn_da1,m_btn_da2,m_btn_da3,m_btn_da4,timeCountDown;
+    TextView m_NdCauhoi,timeCountDown;
     ImageView img_timer;
     Button mpa1,mpa2,mpa3,mpa4;
     @Override
@@ -74,10 +80,6 @@ public class InGameActivity extends AppCompatActivity {
     public void Anhxa(){
         timeCountDown= findViewById(R.id.textViewTime);
         m_NdCauhoi= findViewById(R.id.textViewNdCauHoi);
-        m_btn_da1= findViewById(R.id.buttonDA1);
-        m_btn_da2=(Button)findViewById(R.id.buttonDA2);
-        m_btn_da3=(Button)findViewById(R.id.buttonDA3);
-        m_btn_da4=(Button)findViewById(R.id.buttonDA4);
         Call= findViewById(R.id.imageButtonPhone);
         People= findViewById(R.id.imageButtonPeople);
         img_timer= findViewById(R.id.imageViewTimer);
@@ -86,6 +88,7 @@ public class InGameActivity extends AppCompatActivity {
         mpa3=findViewById(R.id.buttonDA3);
         mpa4=findViewById(R.id.buttonDA4);
         btn_50=findViewById(R.id.imageButton50);
+        btn_reset=findViewById(R.id.imageButtonReset);
     }
     private Boolean get_lstQuestion(String jSonString){
         try {
@@ -117,10 +120,10 @@ public class InGameActivity extends AppCompatActivity {
         if(get_lstQuestion(jSonString)==true)
         {
             m_NdCauhoi.setText(lstQuestion.get(pos).NoiDung);
-            m_btn_da1.setText("A. "+lstQuestion.get(pos).DapAn1);
-            m_btn_da2.setText("B. "+lstQuestion.get(pos).DapAn2);
-            m_btn_da3.setText("C. "+lstQuestion.get(pos).DapAn3);
-            m_btn_da4.setText("D. "+lstQuestion.get(pos).DapAn4);
+            mpa1.setText("A. "+lstQuestion.get(pos).DapAn1);
+            mpa2.setText("B. "+lstQuestion.get(pos).DapAn2);
+            mpa3.setText("C. "+lstQuestion.get(pos).DapAn3);
+            mpa4.setText("D. "+lstQuestion.get(pos).DapAn4);
         }
         else
         {
@@ -212,7 +215,6 @@ public class InGameActivity extends AppCompatActivity {
     public  void onClickTraLoi(View view) {
         switch (view.getId()){
             case R.id.buttonDA1:
-                //chon=1;
                 if(lstQuestion.get(pos).DapAn.equals("1")){
                     XulyDapAnDung(mpa1);
                 }
@@ -222,7 +224,6 @@ public class InGameActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.buttonDA2:
-                //chon=2;
                 if(lstQuestion.get(pos).DapAn.equals("2")){
                     XulyDapAnDung(mpa2);
                 }
@@ -230,7 +231,6 @@ public class InGameActivity extends AppCompatActivity {
                     XuLyDapAnSai(mpa2);
                 break;
             case R.id.buttonDA3:
-//                chon=3;
                 if(lstQuestion.get(pos).DapAn.equals("3")){
                     XulyDapAnDung(mpa3);
                 }
@@ -238,7 +238,6 @@ public class InGameActivity extends AppCompatActivity {
                     XuLyDapAnSai(mpa3);
                 break;
             case R.id.buttonDA4:
-//                chon=4;
                 if(lstQuestion.get(pos).DapAn.equals("4")){
                     XulyDapAnDung(mpa4);
                 }
@@ -250,7 +249,8 @@ public class InGameActivity extends AppCompatActivity {
 //        showQuestion(pos);
         CancelCountDown();
 //        CountDown();
-//        FragmentBangDiem fragmentBangDiem= (FragmentBangDiem) getSupportFragmentManager().findFragmentById(R.id.fragmentDangDiem);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
     public void XulyDapAnDung(final View view){
         final Animation animation=new AlphaAnimation(1,0);
@@ -287,10 +287,14 @@ public class InGameActivity extends AppCompatActivity {
                         showQuestion(pos);
                         CancelCountDown();
                         CountDown();
-                        m_btn_da1.setVisibility(View.VISIBLE);
-                        m_btn_da2.setVisibility(View.VISIBLE);
-                        m_btn_da3.setVisibility(View.VISIBLE);
-                        m_btn_da4.setVisibility(View.VISIBLE);
+                        mpa1.setVisibility(View.VISIBLE);
+                        mpa2.setVisibility(View.VISIBLE);
+                        mpa3.setVisibility(View.VISIBLE);
+                        mpa4.setVisibility(View.VISIBLE);
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        FragmentBangDiem fragmentBangDiem= (FragmentBangDiem) getSupportFragmentManager().findFragmentById(R.id.fragmentDangDiem);
+                        fragmentBangDiem.UpScore(pos);
+
                     }
                 }.start();
             }
@@ -324,16 +328,13 @@ public class InGameActivity extends AppCompatActivity {
                             case "4":mpa4.setBackgroundResource(R.drawable.custom_button_dapan_dung);
                                 break;
                         }
-
                     }
                     @Override
                     public void onFinish() {
-
                         CancelCountDown();
                         DialogGameOver();
                     }
                 }.start();
-
                 view.setBackgroundResource(R.drawable.custom_button_dapan);
             }
         }.start();
@@ -345,6 +346,19 @@ public class InGameActivity extends AppCompatActivity {
 
 
     //Xử lý quyền trợ giúp
+    public void onClickBuyQues(View view) {
+    }
+
+    public void onClickReset(View view) {
+        Random random=new Random();
+        int i=random.nextInt(3)+1;
+        pos=pos+i;
+        if(pos>=lstQuestion.size()) pos = lstQuestion.size()-(lstQuestion.size()-1);
+        showQuestion(pos);
+        btn_reset.setImageResource(R.drawable.reset_icon_x);
+        btn_reset.setEnabled(false);
+
+    }
     public void onClickCall(View view){
         DialogCalling();
     }
@@ -352,34 +366,51 @@ public class InGameActivity extends AppCompatActivity {
         DialogPeople();
     }
     public void onClick50(View view){
-        ArrayList arrayListDA=new ArrayList();
-        arrayListDA.add("1");
-        arrayListDA.add("2");
-        arrayListDA.add("3");
-        arrayListDA.add("4");
-        String da=lstQuestion.get(pos).DapAn;
-        arrayListDA.remove(da);
-        int n;
-        Random random=new Random();
-        int k=random.nextInt(3);
-        arrayListDA.remove(k);
-        n=arrayListDA.size();
-        for(int i=0;i<n;i++){
-            if(arrayListDA.get(i)=="1"){
-                m_btn_da1.setVisibility(View.INVISIBLE);
-            }
-            if(arrayListDA.get(i)=="2"){
-                m_btn_da2.setVisibility(View.INVISIBLE);
-            }
-            if(arrayListDA.get(i)=="3"){
-                m_btn_da3.setVisibility(View.INVISIBLE);
-            }
-            if(arrayListDA.get(i)=="4"){
-                m_btn_da4.setVisibility(View.INVISIBLE);
-            }
+//        ArrayList arrayListDA=new ArrayList();
+//        arrayListDA.add("1");
+//        arrayListDA.add("2");
+//        arrayListDA.add("3");
+//        arrayListDA.add("4");
+//        String da=lstQuestion.get(pos).DapAn;
+//        arrayListDA.remove(da);
+//        int n;
+//        Random random=new Random();
+//        int k=random.nextInt(3);
+//        arrayListDA.remove(k);
+//        n=arrayListDA.size();
+//        for(int i=0;i<n;i++){
+//            if(arrayListDA.get(i)=="1"){
+//                m_btn_da1.setVisibility(View.INVISIBLE);
+//            }
+//            if(arrayListDA.get(i)=="2"){
+//                m_btn_da2.setVisibility(View.INVISIBLE);
+//            }
+//            if(arrayListDA.get(i)=="3"){
+//                m_btn_da3.setVisibility(View.INVISIBLE);
+//            }
+//            if(arrayListDA.get(i)=="4"){
+//                m_btn_da4.setVisibility(View.INVISIBLE);
+//            }
+//        }
+//        btn_50.setImageResource(R.drawable.nam050_icon_x);
+//        btn_50.setEnabled(false);
+
+        LinkedHashMap<String, Button> list = new LinkedHashMap<>();
+        list.put("1", mpa1);
+        list.put("2", mpa2);
+        list.put("3", mpa3);
+        list.put("4", mpa4);
+
+        list.remove(lstQuestion.get(pos).DapAn);
+        list.remove(list.keySet().toArray()[new Random().nextInt(2)]);
+
+        for(Map.Entry<String, Button> item : list.entrySet()){
+            item.getValue().setVisibility(View.INVISIBLE);
+
         }
         btn_50.setImageResource(R.drawable.nam050_icon_x);
         btn_50.setEnabled(false);
+
     }
     public void DialogCalling() {
         final Dialog dialogCall=new Dialog(this);
@@ -394,7 +425,6 @@ public class InGameActivity extends AppCompatActivity {
         dialogCall.show();
     }
     public void DialogPeople (){
-
         final Dialog dialogPeople=new Dialog(this);
         dialogPeople.setContentView(R.layout.dialog_people);
         BarChart barChart= dialogPeople.findViewById(R.id.barChart);
@@ -407,23 +437,19 @@ public class InGameActivity extends AppCompatActivity {
         int da1=random.nextInt(101);
         int da2=random.nextInt(101-da1);
         int da3=random.nextInt(101-(da1+da2));
-
         int da4=(100-(da1+da2+da3));
-
         barEntries.add(new BarEntry(1,da1));
         barEntries.add(new BarEntry(2,da2));
         barEntries.add(new BarEntry(3,da3));
         barEntries.add(new BarEntry(4,da4));
-
         BarDataSet barDataSet=new BarDataSet(barEntries,"DapAn");
         barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-
         BarData data=new BarData(barDataSet);
         data.setBarWidth(0.8f);
-
         barChart.setData(data);
         dialogPeople.show();
-
+        People.setImageResource(R.drawable.people_icon_x);
+        People.setEnabled(false);
     }
 
 
@@ -473,7 +499,6 @@ public class InGameActivity extends AppCompatActivity {
         final Animation animTimerNhapnhaycucmanh= AnimationUtils.loadAnimation(this, R.anim.anim_timer_nhapnhaycucmanh);
         final Animation animTimerXoay= AnimationUtils.loadAnimation(this, R.anim.anim_timer_xoay);
         countDownTimer=new CountDownTimer(timeRemaining,1000) {
-
             @SuppressLint("ResourceAsColor")
             @Override
             public void onTick(long l) {
@@ -488,12 +513,10 @@ public class InGameActivity extends AppCompatActivity {
                     if(a<6){
                         timeCountDown.startAnimation(animTimerNhapnhaycucmanh);
                         timeCountDown.setTextColor(Color.rgb(200,0,0));
-
                     }else {
                         timeCountDown.setTextColor(Color.rgb(255,255,255));
                     }
                 }
-
             }
             @Override
             public void onFinish() {
@@ -526,7 +549,6 @@ public class InGameActivity extends AppCompatActivity {
         imageViewLight2=findViewById(R.id.imageViewLight2);
         final Animation animationLight= AnimationUtils.loadAnimation(this, R.anim.anim_light);
         final Animation animationLight2= AnimationUtils.loadAnimation(this, R.anim.anim_light2);
-
         imageViewLight.startAnimation(animationLight);
         imageViewLight2.startAnimation(animationLight2);
     }
@@ -537,7 +559,6 @@ public class InGameActivity extends AppCompatActivity {
         imageViewLight01=findViewById(R.id.imageViewLightCircle01);
         final Animation animationLight= AnimationUtils.loadAnimation(this, R.anim.anim_circle_light);
         final Animation animationLight2= AnimationUtils.loadAnimation(this, R.anim.anim_circle_light2);
-
         imageViewLight0.startAnimation(animationLight);
         imageViewLight01.startAnimation(animationLight2);
     }
@@ -560,91 +581,8 @@ public class InGameActivity extends AppCompatActivity {
 
     }
 
-//    public void Xulydungver2(){
-//
-//         View view = null;
-//        final Button button=(Button)view;
-//        switch (chon){
-//            case 1: button.findViewById(R.id.buttonDA1);
-//            break;
-//            case 2: button.findViewById(R.id.buttonDA2);
-//                break;
-//            case 3: button.findViewById(R.id.buttonDA3);
-//                break;
-//            case 4: button.findViewById(R.id.buttonDA4);
-//                break;
-//        }
-//
-//        if(chon==Integer.parseInt(lstQuestion.get(pos).DapAn)){
-//            final Animation animation=new AlphaAnimation(1,0);
-//            animation.setDuration(500);
-//            animation.setRepeatCount(Animation.INFINITE);
-//            animation.setRepeatMode(Animation.REVERSE);
-//
-//            new CountDownTimer(5000,1000){
-//                @Override
-//                public void onTick(long l) {
-//                    button.startAnimation(animation);
-//                    button.setBackgroundResource(R.drawable.custom_button_dapan_gandung);
-//
-//                }
-//                @Override
-//                public void onFinish() {
-//                    new CountDownTimer(5000,1000){
-//                        @Override
-//                        public void onTick(long l) {
-//
-//                            animation.cancel();
-//
-//                            button.setBackgroundResource(R.drawable.custom_button_dapan_dung);
-//                        }
-//                        @Override
-//                        public void onFinish() {
-//                            button.setBackgroundResource(R.drawable.custom_button_dapan);
-//                            pos++;
-//                            if(pos>=lstQuestion.size()) pos = lstQuestion.size()-(lstQuestion.size()-1);
-//                            showQuestion(pos);
-//                            CancelCountDown();
-//                            CountDown();
-//                        }
-//                    }.start();
-//                }
-//            }.start();
-//        }
-//        else
-//        {
-//            final Animation animation=new AlphaAnimation(1,0);
-//            animation.setDuration(200);
-//            animation.setRepeatCount(Animation.INFINITE);
-//            animation.setRepeatMode(Animation.REVERSE);
-//            new CountDownTimer(2000,1000){
-//                @Override
-//                public void onTick(long l) {
-//                    button.startAnimation(animation);
-//                    button.setBackgroundResource(R.drawable.custom_button_dapan_gandung);
-//                }
-//                @Override
-//                public void onFinish() {
-//                    new CountDownTimer(3000,1000){
-//                        @Override
-//                        public void onTick(long l) {
-//                            animation.cancel();
-//
-//                        }
-//                        @Override
-//                        public void onFinish() {
-//                            button.setBackgroundResource(R.drawable.custom_button_dapan);
-//                            pos++;
-//                            if(pos>=lstQuestion.size()) pos = lstQuestion.size()-(lstQuestion.size()-1);
-//                            showQuestion(pos);
-//                            CancelCountDown();
-//                            CountDown();
-//                        }
-//                    }.start();
-//                    DialogGameOver();
-//                    button.setBackgroundResource(R.drawable.custom_button_dapan);
-//                }
-//            }.start();
-//        }
-//    }
+
+
+
+
 }
