@@ -23,13 +23,17 @@ import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.doanandroid.adapter.MoneyAdapter;
+import com.example.doanandroid.model.Money;
 import com.example.doanandroid.model.QuestionOBJ;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
@@ -43,6 +47,8 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
@@ -62,6 +68,8 @@ public class InGameActivity extends AppCompatActivity {
     TextView m_NdCauhoi,timeCountDown;
     ImageView img_timer;
     Button mpa1,mpa2,mpa3,mpa4;
+    ArrayList<Money> arrayList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +81,7 @@ public class InGameActivity extends AppCompatActivity {
         LightStick();
         LightCircle();
         DropDollar();
+//        recyclerView();
 
 
 
@@ -165,6 +174,36 @@ public class InGameActivity extends AppCompatActivity {
         PauseTimer();
         dialogPause.show();
     }
+//    public void recyclerView(){
+//        RecyclerView recyclerView=findViewById(R.id.recyclerView);
+//        recyclerView.setHasFixedSize(true);
+//        LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+//        recyclerView.setLayoutManager(layoutManager);
+//        arrayList.add(new Money(1,1000));
+//        arrayList.add(new Money(2,2000));
+//        arrayList.add(new Money(3,3000));
+//        arrayList.add(new Money(4,4000));
+//        arrayList.add(new Money(5,5000));
+//        arrayList.add(new Money(6,6000));
+//        arrayList.add(new Money(7,7000));
+//        arrayList.add(new Money(8,8000));
+//        arrayList.add(new Money(9,9000));
+//        arrayList.add(new Money(10,10000));
+//        arrayList.add(new Money(11,11000));
+//        arrayList.add(new Money(12,12000));
+//        arrayList.add(new Money(13,13000));
+//        arrayList.add(new Money(14,14000));
+//        arrayList.add(new Money(15,15000));
+////        Collections.reverse(arrayList);
+//        MoneyAdapter moneyAdapter=new MoneyAdapter(arrayList,getApplicationContext());
+//        recyclerView.setAdapter(moneyAdapter);
+//
+//
+//    }
+    public void setItemAdapter(int i){
+        MoneyAdapter moneyAdapter=new MoneyAdapter(arrayList,getApplicationContext());
+        moneyAdapter.getstt(i);
+    }
 
 
 
@@ -245,7 +284,6 @@ public class InGameActivity extends AppCompatActivity {
                     XuLyDapAnSai(mpa4);
                 break;
         }
-
 //        showQuestion(pos);
         CancelCountDown();
 //        CountDown();
@@ -295,6 +333,10 @@ public class InGameActivity extends AppCompatActivity {
                         FragmentBangDiem fragmentBangDiem= (FragmentBangDiem) getSupportFragmentManager().findFragmentById(R.id.fragmentDangDiem);
                         fragmentBangDiem.UpScore(pos);
 
+
+//                       setItemAdapter(pos);
+//                       arrayList.clear();
+//                       recyclerView();
                     }
                 }.start();
             }
@@ -366,35 +408,6 @@ public class InGameActivity extends AppCompatActivity {
         DialogPeople();
     }
     public void onClick50(View view){
-//        ArrayList arrayListDA=new ArrayList();
-//        arrayListDA.add("1");
-//        arrayListDA.add("2");
-//        arrayListDA.add("3");
-//        arrayListDA.add("4");
-//        String da=lstQuestion.get(pos).DapAn;
-//        arrayListDA.remove(da);
-//        int n;
-//        Random random=new Random();
-//        int k=random.nextInt(3);
-//        arrayListDA.remove(k);
-//        n=arrayListDA.size();
-//        for(int i=0;i<n;i++){
-//            if(arrayListDA.get(i)=="1"){
-//                m_btn_da1.setVisibility(View.INVISIBLE);
-//            }
-//            if(arrayListDA.get(i)=="2"){
-//                m_btn_da2.setVisibility(View.INVISIBLE);
-//            }
-//            if(arrayListDA.get(i)=="3"){
-//                m_btn_da3.setVisibility(View.INVISIBLE);
-//            }
-//            if(arrayListDA.get(i)=="4"){
-//                m_btn_da4.setVisibility(View.INVISIBLE);
-//            }
-//        }
-//        btn_50.setImageResource(R.drawable.nam050_icon_x);
-//        btn_50.setEnabled(false);
-
         LinkedHashMap<String, Button> list = new LinkedHashMap<>();
         list.put("1", mpa1);
         list.put("2", mpa2);

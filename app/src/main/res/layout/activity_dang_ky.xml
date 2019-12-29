@@ -76,13 +76,14 @@
             android:background="@drawable/custom_button_dapan" />
 
         <Button
-            android:layout_marginBottom="10dp"
-            android:textColor="#fff"
+            android:id="@+id/buttonDangKi"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/custom_button_dapan"
-            android:id="@+id/buttonDangKi"
-            android:text="Đăng Ký"/>
+            android:onClick="onClickDangKi"
+            android:text="Đăng Ký"
+            android:textColor="#fff" />
     </LinearLayout>
 
 

@@ -69,11 +69,11 @@
 
         <EditText
             android:textAlignment="center"
-
             android:layout_marginBottom="10dp"
             android:textColor="#fff"
             android:textColorHint="#A59D9D"
             android:hint="Nhập tài khoản"
+            android:padding="2dp"
             android:id="@+id/editTextTaiKhoan"
             android:layout_width="250dp"
             android:layout_height="50dp"
@@ -84,10 +84,12 @@
             android:textColor="#fff"
             android:textColorHint="#A59D9D"
             android:hint="Nhập mật khẩu"
+            android:padding="2dp"
             android:id="@+id/editTextMatKhau"
             android:layout_width="250dp"
             android:layout_height="50dp"
-            android:background="@drawable/custom_button_dapan" />
+            android:background="@drawable/custom_button_dapan"
+            android:inputType="textPassword"/>
 
         <Button
             android:layout_marginBottom="10dp"

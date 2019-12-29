@@ -34,9 +34,11 @@ dependencies {
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
     implementation 'com.android.volley:volley:1.1.1'
+    implementation 'com.github.d-max:spots-dialog:1.1@aar'
+    implementation files('libs/jBCrypt-0.4.1.jar')
 }
 repositories {
-    mavenCentral()
     google()
+    jcenter()
     maven { url 'https://jitpack.io' }
 }

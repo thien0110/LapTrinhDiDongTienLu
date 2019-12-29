@@ -1,10 +1,16 @@
 package com.example.doanandroid;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import dmax.dialog.SpotsDialog;
+
+import static dmax.dialog.SpotsDialog.*;
 
 public class APIGetting extends AsyncTask<String,String,String> {
     private Context m_con;
@@ -13,9 +19,15 @@ public class APIGetting extends AsyncTask<String,String,String> {
         m_con =con;
     }
 
+
     @Override
     protected String doInBackground(String... strings) {
         return APIQuestion.getQuestions(strings[0]);
+    }
+
+    @Override
+    protected void onPreExecute() {
+
     }
 
     @Override
@@ -26,5 +38,6 @@ public class APIGetting extends AsyncTask<String,String,String> {
         intent.putExtra("message", s);
         Activity activity = (Activity) m_con;
         activity.startActivity(intent);
+
     }
 }

@@ -2,6 +2,7 @@ package com.example.doanandroid;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -22,8 +23,11 @@ import org.json.JSONArray;
 
 import java.util.concurrent.ExecutionException;
 
+import dmax.dialog.SpotsDialog;
+
 public class LinhVucActivity extends AppCompatActivity {
     Button button;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +35,15 @@ public class LinhVucActivity extends AppCompatActivity {
         setContentView(R.layout.activity_linh_vuc);
         button =findViewById(R.id.buttonLinhVuc1);
         LightStick();
-//       ReadJSON("http://192.168.1.23:8000/api/CauHoiJson?linh_vuc=1");
+//       ReadJSON("http://192.168.202.2:8080/api/apiandroid.php?DoKho=1");
+
     }
     public void ChonLinhVucOnClick(View view)throws ExecutionException, InterruptedException{
+//        AlertDialog alertDialog = new SpotsDialog.Builder().setContext(LinhVucActivity.this).setTheme(R.style.Custom).build();
+//        alertDialog.show();
         Button btn = (Button)view;
         String lst=new APIGetting(this).execute(view.getId()==R.id.buttonLinhVuc1?"1":(view.getId()==R.id.buttonLinhVuc2?"2":"3")).get();
+//        alertDialog.dismiss();
     }
     public void LightStick (){
         ImageView imageViewLight;
@@ -67,4 +75,5 @@ public class LinhVucActivity extends AppCompatActivity {
         );
         requestQueue.add(jsonArrayRequest);
     }
+
 }

@@ -100,20 +100,22 @@
             android:textColor="#fff"
             android:textSize="34sp" />
 
-        <RelativeLayout
-            android:id="@+id/fragment_layout"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:orientation="vertical"
             android:layout_alignParentEnd="true"
-            android:background="@drawable/custom_bangdiem">
+            android:padding="5dp"
+            android:background="@drawable/custom_bangdiem"
+            >
 
             <fragment
                 android:id="@+id/fragmentDangDiem"
                 android:name="com.example.doanandroid.FragmentBangDiem"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-        </RelativeLayout>
+        </LinearLayout>
+
 
     </RelativeLayout>
 
