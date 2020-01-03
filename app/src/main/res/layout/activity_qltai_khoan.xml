@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/begin"
+    android:background="@drawable/background_emty"
     tools:context=".QLTaiKhoanActivity">
     <ImageView
         android:id="@+id/imageViewLight"
@@ -21,14 +21,17 @@
         android:scaleType="fitXY"
         app:srcCompat="@drawable/light" />
 
-    <ImageView
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_marginTop="20dp"
         android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
         android:id="@+id/imageViewAvatar"
+        android:layout_centerInParent="true"
         android:layout_width="250dp"
         android:layout_height="250dp"
-        app:srcCompat="@drawable/doanchibinh" />
+        android:src="@drawable/doanchibinh">
+
+    </de.hdodenhof.circleimageview.CircleImageView>
 
     <TextView
         android:id="@+id/textViewDoiAvatar"
@@ -56,17 +59,19 @@
             android:layout_marginBottom="10dp"
             android:textColor="#fff"
             android:textColorHint="#A59D9D"
-            android:hint="Có sẵn Tên Tài Khoản"
+            android:text="Doãn Chí Bình"
             android:id="@+id/editTextTaiKhoan"
             android:layout_width="250dp"
             android:layout_height="50dp"
+            android:enabled="false"
             android:background="@drawable/custom_button_dapan" />
         <EditText
             android:textAlignment="center"
             android:layout_marginBottom="10dp"
             android:textColor="#fff"
+            android:enabled="false"
             android:textColorHint="#A59D9D"
-            android:hint="Có Sẳn Email, không được sửa"
+            android:text="ChiBinhCoCo@gmail.com"
             android:id="@+id/editTextEmail"
             android:layout_width="250dp"
             android:layout_height="50dp"
@@ -75,7 +80,6 @@
 
         <EditText
             android:textAlignment="center"
-
             android:layout_marginBottom="10dp"
             android:textColor="#fff"
             android:textColorHint="#A59D9D"

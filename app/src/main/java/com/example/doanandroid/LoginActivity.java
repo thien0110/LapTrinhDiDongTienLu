@@ -1,11 +1,14 @@
 package com.example.doanandroid;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -20,6 +23,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.doanandroid.model.Player;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,13 +57,15 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
     EditText txt_user;
     EditText txt_pass;
     List<Player> lstPlayer=new ArrayList<>();
     ReadJSONOBJ readJSONOBJ = new ReadJSONOBJ();
+    private GoogleApiClient mGoogleApiClient;
+    int RC_SIGN_IN=001;
+    private static final String TAG = "SignInActivity";
 
-//    ArrayList<Player>lstPlayer;
 
 
     @Override
@@ -61,9 +75,22 @@ public class LoginActivity extends AppCompatActivity {
         txt_user=findViewById(R.id.editTextTaiKhoan);
         txt_pass=findViewById(R.id.editTextMatKhau);
         LightStick();
-        DropDollar();
         readJSONOBJ.execute("http://192.168.202.2:8000/api/NguoiChoiJson");
-//        ReadJSON("http://192.168.1.20:8000/api/NguoiChoiJson?username=heydayle");
+
+        //Yêu cầu người dùng cung cấp thông tin
+        GoogleSignInOptions gso=new  GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        //kết nối google API client
+        mGoogleApiClient=new GoogleApiClient.Builder(this).enableAutoManage(this,this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .build();
+        // Button Google Sig-in
+        SignInButton signInButton=findViewById(R.id.btnSignIn);
+        signInButton.setSize(signInButton.SIZE_STANDARD);
+
+        findViewById(R.id.btnSignIn).setOnClickListener(this);
+
 
 //
 
@@ -81,13 +108,15 @@ public class LoginActivity extends AppCompatActivity {
 //        String hash = BCrypt.hashpw(mk, BCrypt.gensalt());
         boolean mk = false;
         String tk="";
+        String em="";
         for (Player p:lstPlayer){
             if(p.mAcc.equals(txt_user.getText().toString())){
                 tk=p.mAcc;
+                em=p.mEmail;
             }
             boolean valuate = BCrypt.checkpw(txt_pass.getText().toString(),p.mPass);
             if(valuate){
-                mk=valuate;
+                mk= true;
             }
         }
         if(txt_user.getText().length()!=0 && txt_pass.getText().length()!=0){
@@ -95,7 +124,10 @@ public class LoginActivity extends AppCompatActivity {
                 if(txt_user.getText().toString().equals(tk)){
                     if(mk==true){
                         Toast.makeText(LoginActivity.this,"Đăng nhập thành công",Toast.LENGTH_SHORT).show();
+
                         Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+                        intent.putExtra("tendn",tk);
+                        intent.putExtra("email",em);
                    startActivity(intent);
                     }
                     else
@@ -105,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                 }else{
                     Toast.makeText(LoginActivity.this,"Tài khoản không tồn tại",Toast.LENGTH_SHORT).show();
                 }
-        }else{
+        }else {
             txt_user.setHint("Bạn chưa nhập tài khoản");
             txt_pass.setHint("Bạn chưa nhập mật khẩu");
         }
@@ -121,24 +153,63 @@ public class LoginActivity extends AppCompatActivity {
         imageViewLight.startAnimation(animationLight);
         imageViewLight2.startAnimation(animationLight2);
     }
-    public void DropDollar(){
-        ImageView imageViewDollar1=findViewById(R.id.imageViewDollar1);
-        ImageView imageViewDollar2=findViewById(R.id.imageViewDollar2);
-        ImageView imageViewDollar3=findViewById(R.id.imageViewDollar3);
-        ImageView imageViewDollar4=findViewById(R.id.imageViewDollar4);
-        ImageView imageViewDollar5=findViewById(R.id.imageViewDollar5);
-        final Animation animationDollar=AnimationUtils.loadAnimation(this,R.anim.anim_drop_dollar2);
-        final Animation animationDollar2=AnimationUtils.loadAnimation(this,R.anim.anim_drop_dollar);
-        final Animation animationDollar3=AnimationUtils.loadAnimation(this,R.anim.anim_drop_dollar3);
-        final Animation animationDollar4=AnimationUtils.loadAnimation(this,R.anim.anim_drop_dollar4);
-        final Animation animationDollar5=AnimationUtils.loadAnimation(this,R.anim.anim_drop_dollar5);
-        imageViewDollar1.startAnimation(animationDollar);
-        imageViewDollar2.startAnimation(animationDollar2);
-        imageViewDollar3.startAnimation(animationDollar3);
-        imageViewDollar4.startAnimation(animationDollar4);
-        imageViewDollar5.startAnimation(animationDollar5);
+
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.d("Failed",connectionResult+"");
+    }
+    //FUNCTION Dang Nhap
+    private  void SigIn(){
+        Intent signInIntent=Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent,RC_SIGN_IN);
+        Log.d("KET NOI THANH CONG",mGoogleApiClient.isConnected()+"");
 
     }
+
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==RC_SIGN_IN){
+            GoogleSignInResult result=Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+            startActivity(intent);
+            handleSignInResult(result);
+
+        }
+    }
+    public void handleSignInResult(GoogleSignInResult result){
+        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+        if(result.isSuccess()){
+            GoogleSignInAccount acct=result.getSignInAccount();
+            Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+            startActivity(intent);
+           // txtName.setText(acct.getDisplayName());
+           // Picasso.with(this).load(acct.getPhotoUrl()).into(imgHinh);
+//            intent.putExtra("ten",acct.getDisplayName());
+//            intent.putExtra("hinh",acct.getPhotoUrl());
+
+
+
+        }
+        else {
+
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btnSignIn:
+                SigIn();
+                break;
+
+        }
+
+    }
+
 
     private class ReadJSONOBJ extends AsyncTask<String,Void,String>{
 
@@ -195,4 +266,5 @@ public class LoginActivity extends AppCompatActivity {
 //        );
 //        requestQueue.add(jsonArrayRequest);
 //    }
+
 }

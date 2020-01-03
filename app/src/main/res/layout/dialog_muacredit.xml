@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+    android:background="@drawable/custom_bangdiem">
+    <TextView
+        android:id="@+id/top"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mua Credit"
+        android:textColor="#FFF200"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        android:layout_marginBottom="8dp">
+
+    </TextView>
+
+    <GridView
+        android:numColumns="2"
+        android:layout_below="@+id/top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gridView">
+
+    </GridView>
+
+</RelativeLayout>

@@ -11,7 +11,7 @@ public class APIQuestion {
     static String getQuestions(String LinhVuc){
         StringBuilder content=new StringBuilder();
         try {
-            URL url=new URL("http://192.168.202.2:8080/api/apiandroid.php?DoKho="+LinhVuc);
+            URL url=new URL("http://192.168.202.2:8000/api/CauHoiJson?linh_vuc="+LinhVuc);
             InputStreamReader inputStreamReader=new InputStreamReader(url.openStream());
             BufferedReader bufferedReader=new BufferedReader(inputStreamReader);
             String line="";

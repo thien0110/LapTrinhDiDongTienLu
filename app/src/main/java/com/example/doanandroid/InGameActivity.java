@@ -41,6 +41,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,20 +56,23 @@ import java.util.Random;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
+
 @SuppressWarnings("deprecation")
 public class InGameActivity extends AppCompatActivity {
     private boolean isPaused = false;
     private long timeRemaining = 0;
-    int chon=0;
+    int chon=0, ch=1;
     ArrayList<QuestionOBJ> lstQuestion;
-    int pos=0;
+    int pos=0, tien=0, luutien=0;
     Handler handler;
     ImageButton Call,People,btn_50,btn_reset;
     CountDownTimer countDownTimer=null;
-    TextView m_NdCauhoi,timeCountDown;
-    ImageView img_timer;
+    TextView m_NdCauhoi,timeCountDown,Diem,SoCau;
+    ImageView img_timer,tim1,tim2,tim3,tim4,tim5;
     Button mpa1,mpa2,mpa3,mpa4;
     ArrayList<Money> arrayList = new ArrayList<>();
+    int demtym=0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +102,13 @@ public class InGameActivity extends AppCompatActivity {
         mpa4=findViewById(R.id.buttonDA4);
         btn_50=findViewById(R.id.imageButton50);
         btn_reset=findViewById(R.id.imageButtonReset);
+        Diem=findViewById(R.id.textViewSoDiem);
+        SoCau=findViewById(R.id.textViewSoCau);
+        tim1=findViewById(R.id.tym1);
+        tim2=findViewById(R.id.tym2);
+        tim3=findViewById(R.id.tym3);
+        tim4=findViewById(R.id.tym4);
+        tim5=findViewById(R.id.tym5);
     }
     private Boolean get_lstQuestion(String jSonString){
         try {
@@ -116,6 +127,7 @@ public class InGameActivity extends AppCompatActivity {
                 quiz.Chon="0";
                 lstQuestion.add(quiz);
             }
+            Collections.shuffle(lstQuestion);
             return true;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -128,17 +140,20 @@ public class InGameActivity extends AppCompatActivity {
         String jSonString = intent.getStringExtra("message");
         if(get_lstQuestion(jSonString)==true)
         {
+
             m_NdCauhoi.setText(lstQuestion.get(pos).NoiDung);
             mpa1.setText("A. "+lstQuestion.get(pos).DapAn1);
             mpa2.setText("B. "+lstQuestion.get(pos).DapAn2);
             mpa3.setText("C. "+lstQuestion.get(pos).DapAn3);
             mpa4.setText("D. "+lstQuestion.get(pos).DapAn4);
+
         }
         else
         {
             m_NdCauhoi.setText("API can not run.");
 
         }
+
 
     }
     public void onClickPause(View view){
@@ -174,43 +189,13 @@ public class InGameActivity extends AppCompatActivity {
         PauseTimer();
         dialogPause.show();
     }
-//    public void recyclerView(){
-//        RecyclerView recyclerView=findViewById(R.id.recyclerView);
-//        recyclerView.setHasFixedSize(true);
-//        LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-//        recyclerView.setLayoutManager(layoutManager);
-//        arrayList.add(new Money(1,1000));
-//        arrayList.add(new Money(2,2000));
-//        arrayList.add(new Money(3,3000));
-//        arrayList.add(new Money(4,4000));
-//        arrayList.add(new Money(5,5000));
-//        arrayList.add(new Money(6,6000));
-//        arrayList.add(new Money(7,7000));
-//        arrayList.add(new Money(8,8000));
-//        arrayList.add(new Money(9,9000));
-//        arrayList.add(new Money(10,10000));
-//        arrayList.add(new Money(11,11000));
-//        arrayList.add(new Money(12,12000));
-//        arrayList.add(new Money(13,13000));
-//        arrayList.add(new Money(14,14000));
-//        arrayList.add(new Money(15,15000));
-////        Collections.reverse(arrayList);
-//        MoneyAdapter moneyAdapter=new MoneyAdapter(arrayList,getApplicationContext());
-//        recyclerView.setAdapter(moneyAdapter);
-//
-//
-//    }
-    public void setItemAdapter(int i){
-        MoneyAdapter moneyAdapter=new MoneyAdapter(arrayList,getApplicationContext());
-        moneyAdapter.getstt(i);
-    }
-
-
 
 
     //Xử lý trả lời câu hỏi
     public void DialogWin(){
+
         AlertDialog.Builder alertDialogBuilderwin = new AlertDialog.Builder(InGameActivity.this);
+
         alertDialogBuilderwin
                 .setTitle("Thông Báo ")
                 .setMessage("Xin chúc mừng, Bạn Đã Trở Thành Triệu Phú! ")
@@ -234,7 +219,7 @@ public class InGameActivity extends AppCompatActivity {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(InGameActivity.this);
         alertDialogBuilder
                 .setTitle("Game Over! ")
-                .setMessage(" ")
+                .setMessage("Rất tiếc! Bạn phải ra về với số tiền thưởng là "+luutien+"$")
                 .setCancelable(false)
                 .setPositiveButton("Tiếp ván mới", new DialogInterface.OnClickListener() {
                     @Override
@@ -291,6 +276,8 @@ public class InGameActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
     public void XulyDapAnDung(final View view){
+
+        final Animation animSoCauXoay= AnimationUtils.loadAnimation(this, R.anim.anim_socau_xoay);
         final Animation animation=new AlphaAnimation(1,0);
         animation.setDuration(500);
         animation.setRepeatCount(Animation.INFINITE);
@@ -315,12 +302,19 @@ public class InGameActivity extends AppCompatActivity {
                         winround.start();
                         clapyourhand.start();
                         view.setBackgroundResource(R.drawable.custom_button_dapan_dung);
+
                     }
                     @Override
                     public void onFinish() {
                         clapyourhand.stop();
                         view.setBackgroundResource(R.drawable.custom_button_dapan);
                         pos++;
+                        ch++;
+                        tien=tien+1000;
+                        luutien=tien;
+                        Diem.setText(tien+"$");
+                        SoCau.setText(ch+"");
+
                         if(pos>=lstQuestion.size()) pos = lstQuestion.size()-(lstQuestion.size()-1);
                         showQuestion(pos);
                         CancelCountDown();
@@ -330,8 +324,9 @@ public class InGameActivity extends AppCompatActivity {
                         mpa3.setVisibility(View.VISIBLE);
                         mpa4.setVisibility(View.VISIBLE);
                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                        FragmentBangDiem fragmentBangDiem= (FragmentBangDiem) getSupportFragmentManager().findFragmentById(R.id.fragmentDangDiem);
-                        fragmentBangDiem.UpScore(pos);
+
+//                        FragmentBangDiem fragmentBangDiem= (FragmentBangDiem) getSupportFragmentManager().findFragmentById(R.id.fragmentDangDiem);
+//                        fragmentBangDiem.UpScore(pos);
 
 
 //                       setItemAdapter(pos);
@@ -373,8 +368,27 @@ public class InGameActivity extends AppCompatActivity {
                     }
                     @Override
                     public void onFinish() {
-                        CancelCountDown();
-                        DialogGameOver();
+                        demtym++;
+
+                        switch (demtym){
+                            case 1:tim5.setVisibility(View.INVISIBLE);
+                                xlxlxl();
+                            break;
+                            case 2:tim4.setVisibility(View.INVISIBLE);
+                                xlxlxl();
+                                break;
+                            case 3:tim3.setVisibility(View.INVISIBLE);
+                                xlxlxl();
+                                break;
+                            case 4:tim2.setVisibility(View.INVISIBLE);
+                                xlxlxl();
+                                break;
+
+                            case 5:CancelCountDown();
+                                DialogGameOver();
+                                break;
+                        }
+
                     }
                 }.start();
                 view.setBackgroundResource(R.drawable.custom_button_dapan);
@@ -383,18 +397,34 @@ public class InGameActivity extends AppCompatActivity {
 
     }
 
-
+    public void xlxlxl(){
+        pos++;
+        ch++;
+        SoCau.setText(ch+"");
+        if(pos>=lstQuestion.size()) pos = lstQuestion.size()-(lstQuestion.size()-1);
+        showQuestion(pos);
+        CancelCountDown();
+        CountDown();
+        mpa1.setVisibility(View.VISIBLE);
+        mpa2.setVisibility(View.VISIBLE);
+        mpa3.setVisibility(View.VISIBLE);
+        mpa4.setVisibility(View.VISIBLE);
+        mpa4.setBackgroundResource(R.drawable.custom_button_dapan);
+        mpa1.setBackgroundResource(R.drawable.custom_button_dapan);
+        mpa2.setBackgroundResource(R.drawable.custom_button_dapan);
+        mpa3.setBackgroundResource(R.drawable.custom_button_dapan);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
 
 
 
     //Xử lý quyền trợ giúp
     public void onClickBuyQues(View view) {
     }
-
     public void onClickReset(View view) {
-        Random random=new Random();
-        int i=random.nextInt(3)+1;
-        pos=pos+i;
+//        Random random=new Random();
+//        int i=random.nextInt(3)+1;
+        pos=pos+1;
         if(pos>=lstQuestion.size()) pos = lstQuestion.size()-(lstQuestion.size()-1);
         showQuestion(pos);
         btn_reset.setImageResource(R.drawable.reset_icon_x);
@@ -403,6 +433,9 @@ public class InGameActivity extends AppCompatActivity {
     }
     public void onClickCall(View view){
         DialogCalling();
+        Call.setImageResource(R.drawable.phone_icon_x);
+        Call.setEnabled(false);
+
     }
     public void onClickPeople(View view){
         DialogPeople();
@@ -429,6 +462,23 @@ public class InGameActivity extends AppCompatActivity {
         final Dialog dialogCall=new Dialog(this);
         dialogCall.setContentView(R.layout.dialog_calling);
         Button imageButtonEndCall= dialogCall.findViewById(R.id.buttonEndCall);
+        TextView da= dialogCall.findViewById(R.id.textViewDA);
+        Random random=new Random();
+        int so=random.nextInt(2);
+        String rd = "";
+        if(so==0){
+            rd=RandomStringUtils.random(1,"ABCD");
+        }else
+        {
+            switch (lstQuestion.get(pos).DapAn)
+            {
+                case "1":rd="A";break;
+                case "2":rd="B";break;
+                case "3":rd="C";break;
+                case "4":rd="D";break;
+            }
+        }
+        da.setText(rd);
         imageButtonEndCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -439,7 +489,15 @@ public class InGameActivity extends AppCompatActivity {
     }
     public void DialogPeople (){
         final Dialog dialogPeople=new Dialog(this);
+
         dialogPeople.setContentView(R.layout.dialog_people);
+        Button thanks=dialogPeople.findViewById(R.id.buttonThanks);
+        thanks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogPeople.dismiss();
+            }
+        });
         BarChart barChart= dialogPeople.findViewById(R.id.barChart);
         barChart.setDrawBarShadow(false);
         barChart.setTouchEnabled(false);
@@ -463,6 +521,7 @@ public class InGameActivity extends AppCompatActivity {
         dialogPeople.show();
         People.setImageResource(R.drawable.people_icon_x);
         People.setEnabled(false);
+
     }
 
 
@@ -474,7 +533,7 @@ public class InGameActivity extends AppCompatActivity {
         final Animation animTimerNhapnhay= AnimationUtils.loadAnimation(this, R.anim.anim_timer_nhapnhay);
         final Animation animTimerNhapnhaycucmanh= AnimationUtils.loadAnimation(this, R.anim.anim_timer_nhapnhaycucmanh);
         final Animation animTimerXoay= AnimationUtils.loadAnimation(this, R.anim.anim_timer_xoay);
-        countDownTimer=new CountDownTimer(/*Integer.parseInt(timeCountDown.getText().toString())*1000*/120000,1000) {
+        countDownTimer=new CountDownTimer(/*Integer.parseInt(timeCountDown.getText().toString())*1000*/30000,1000) {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onTick(long l) {
@@ -498,7 +557,26 @@ public class InGameActivity extends AppCompatActivity {
             public void onFinish() {
                 timeCountDown.setText("0");
                 //Toast.makeText(InGameActivity.this,"GAMEOVER",Toast.LENGTH_SHORT).show();
-                DialogGameOver();
+                demtym++;
+
+                switch (demtym){
+                    case 1:tim5.setVisibility(View.INVISIBLE);
+                        xlxlxl();
+                        break;
+                    case 2:tim4.setVisibility(View.INVISIBLE);
+                        xlxlxl();
+                        break;
+                    case 3:tim3.setVisibility(View.INVISIBLE);
+                        xlxlxl();
+                        break;
+                    case 4:tim2.setVisibility(View.INVISIBLE);
+                        xlxlxl();
+                        break;
+
+                    case 5:CancelCountDown();
+                        DialogGameOver();
+                        break;
+                }
             }
         };
         countDownTimer.start();

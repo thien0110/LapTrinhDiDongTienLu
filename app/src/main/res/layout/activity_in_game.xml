@@ -72,17 +72,99 @@
         android:scaleType="fitXY"
         app:srcCompat="@drawable/light" />
 
+    <RelativeLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/rl_top"
+        android:background="@drawable/custom_bangdiem">
+        <TextView
+
+            android:id="@+id/textViewSoDiem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0$"
+            android:layout_toRightOf="@+id/layoutTym"
+            android:layout_marginLeft="20dp"
+            android:textColor="#fff"
+            android:textSize="30sp" />
+        <TextView
+           android:layout_toLeftOf="@+id/diamond"
+            android:id="@+id/textViewSoTiem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100"
+            android:textColor="#fff"
+            android:textSize="30sp" />
+        <ImageView
+            android:layout_alignParentEnd="true"
+            android:id="@+id/diamond"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:src="@drawable/dimond_small">
+        </ImageView>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/layoutTym"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_margin="2dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true">
+            <ImageView
+                android:id="@+id/tym1"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/heart">
+            </ImageView>
+            <ImageView
+                android:id="@+id/tym2"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/heart">
+            </ImageView>
+            <ImageView
+                android:id="@+id/tym3"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/heart">
+            </ImageView>
+            <ImageView
+                android:id="@+id/tym4"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/heart">
+            </ImageView>
+            <ImageView
+                android:id="@+id/tym5"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@drawable/heart">
+            </ImageView>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/rl_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/ll_cauhoivadapan"
-        android:layout_alignParentTop="true"
-        android:paddingBottom="15dp"
-        android:background="@null">
+
+        android:layout_below="@id/rl_top"
+        android:background="@null"
+        android:paddingBottom="15dp">
+
 
 
         <ImageView
+            android:layout_marginTop="5dp"
             android:id="@+id/imageViewTimer"
             android:layout_width="88dp"
             android:layout_height="88dp"
@@ -90,6 +172,7 @@
             app:srcCompat="@drawable/ticktock" />
 
         <TextView
+            android:layout_marginTop="5dp"
             android:id="@+id/textViewTime"
             android:layout_width="90dp"
             android:layout_height="90dp"
@@ -100,21 +183,17 @@
             android:textColor="#fff"
             android:textSize="34sp" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_alignParentEnd="true"
-            android:padding="5dp"
-            android:background="@drawable/custom_bangdiem"
-            >
-
-            <fragment
-                android:id="@+id/fragmentDangDiem"
-                android:name="com.example.doanandroid.FragmentBangDiem"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/textViewSoCau"
+            android:gravity="center"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:textAlignment="center"
+            android:textColor="#fff"
+            android:textSize="70sp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/custom_textview_socau"
+            android:text="1" />
 
 
     </RelativeLayout>
@@ -242,6 +321,14 @@
             android:contentDescription="TODO"
             android:onClick="onClickBuyQues"
             app:srcCompat="@drawable/dollar_icon" />
+        <ImageButton
+            android:id="@+id/imageButtonReset"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="@drawable/custom_button_trogiup"
+            android:layout_weight="1"
+            android:onClick="onClickReset"
+            app:srcCompat="@drawable/reset_icon" />
 
         <ImageButton
             android:id="@+id/imageButton50"
@@ -274,14 +361,7 @@
             android:onClick="onClickPeople"
             app:srcCompat="@drawable/people_icon" />
 
-        <ImageButton
-            android:id="@+id/imageButtonReset"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:background="@drawable/custom_button_trogiup"
-            android:layout_weight="1"
-            android:onClick="onClickReset"
-            app:srcCompat="@drawable/reset_icon" />
+
     </LinearLayout>
 
 

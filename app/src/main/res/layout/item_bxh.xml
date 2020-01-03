@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:weightSum="2"
+    android:background="@drawable/custom_button_dapan"
+    android:layout_marginBottom="5dp">
+    <TextView
+        android:id="@+id/hang"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:textSize="30dp"
+        android:textColor="#fff"
+        android:background="@drawable/custom_textview_socau"
+        android:text="1"
+        android:gravity="center">
+
+    </TextView>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:gravity="center">
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên"
+
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textColor="#FF6D00">
+
+        </TextView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+
+        android:id="@+id/textViewTenbxh"
+        android:textColor="#fff"
+        android:text="vãi cả cức"
+        android:textAlignment="center"
+        android:gravity="center">
+
+    </TextView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tiền"
+            android:layout_marginTop="5dp"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textColor="#FF6D00">
+
+        </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+
+            android:id="@+id/textViewSoDiembxh"
+            android:textColor="#fff"
+            android:text="vãi cả cức"
+            android:textAlignment="center"
+            android:gravity="center">
+
+        </TextView>
+    </LinearLayout>
+
+</LinearLayout>

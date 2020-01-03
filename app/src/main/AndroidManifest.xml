@@ -13,11 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".QLTaiKhoanActivity">
+
+        <activity android:name=".QLTaiKhoanActivity"
+            android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".DangKyActivity" />
-        <activity android:name=".LumMatKhauActivity" />
+        <activity android:name=".DangKyActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".LumMatKhauActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".LoginActivity"
             android:screenOrientation="portrait">
@@ -27,22 +31,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".LinhVucActivity"
-            android:screenOrientation="portrait" >
-
+            android:screenOrientation="portrait">
 
         </activity>
         <activity
             android:name=".InGameActivity"
-            android:screenOrientation="portrait" >
-
+            android:screenOrientation="portrait">
 
         </activity>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
+
         </activity>
     </application>
 

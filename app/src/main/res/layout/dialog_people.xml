@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/holo_blue_light">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="500dp"
+    android:orientation="vertical"
+    android:background="@android:color/holo_blue_light"
+    android:weightSum="10">
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/barChart"
         android:layout_width="match_parent"
-        android:layout_height="651dp"
+        android:layout_height="0dp"
+        android:layout_weight="9"
 
-        ></com.github.mikephil.charting.charts.BarChart>
+        />
 
-</RelativeLayout>
+    <Button
+
+        android:id="@+id/buttonThanks"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="Xin Cám Ơn"
+        android:layout_gravity="center"
+        android:textSize="25sp" />
+
+</LinearLayout>
