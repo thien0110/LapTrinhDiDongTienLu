@@ -57,7 +57,7 @@ public class LinhVucActivity extends AppCompatActivity {
         imageViewLight2.startAnimation(animationLight2);
     }
 
-    public void ReadJSON(String url){
+    public void ReadJSON(String url){//Cái này hông sài nha, để test thôi
         RequestQueue requestQueue= Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override

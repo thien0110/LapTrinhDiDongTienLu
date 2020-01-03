@@ -1,5 +1,6 @@
 package com.example.doanandroid;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -30,6 +32,8 @@ import com.example.doanandroid.model.LichSu;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity {
     Button logOn,lichsu,bxh,credit;
     ImageView imageViewLight;
@@ -38,10 +42,9 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<BangXepHang> arrayList2=new ArrayList();
     ArrayList<String> arrayListCre=new ArrayList();
     TextView ten;
-    String  taikhoanintent=getIntent().getStringExtra("tendn");
-//    String emailintent=getIntent().getStringExtra("email");
-
-
+    CircleImageView circleImageView;
+    Uri uri=null;
+    final int REQUEST_CODE_EXAMPLE = 0x9345;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +57,13 @@ public class MainActivity extends AppCompatActivity {
         bxh=findViewById(R.id.buttonBangXepHang);
         credit=findViewById(R.id.buttonMuaCredit);
         ten=findViewById(R.id.textViewTenDoan);
+        circleImageView=findViewById(R.id.imageViewAvatar);
 
+        String taikhoanintent=getIntent().getStringExtra("tendn");
         ten.setText(taikhoanintent);
+
+
+
 
         final Animation animationLight= AnimationUtils.loadAnimation(this, R.anim.anim_light);
         final Animation animationLight2= AnimationUtils.loadAnimation(this, R.anim.anim_light2);
@@ -141,9 +149,12 @@ public class MainActivity extends AppCompatActivity {
 
    }
    public void onClickQLTK(View view){
+
+       String emailintent=getIntent().getStringExtra("email");
+       String  taikhoanintent=getIntent().getStringExtra("tendn");
        Intent intent=new Intent(MainActivity.this,QLTaiKhoanActivity.class);
        intent.putExtra("tk",taikhoanintent);
-//       intent.putExtra("em",emailintent);
+       intent.putExtra("em",emailintent);
        startActivity(intent);
    }
    public void DialogLichSu(){
@@ -175,8 +186,28 @@ public class MainActivity extends AppCompatActivity {
        dialogLichSu.show();
    }
 
-
-
-
-
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if(requestCode == REQUEST_CODE_EXAMPLE) {
+//
+//            // resultCode được set bởi DetailActivity
+//            // RESULT_OK chỉ ra rằng kết quả này đã thành công
+//            if(resultCode == AppCompatActivity.RESULT_OK) {
+//                // Nhận dữ liệu từ Intent trả về
+//                final String result = data.getStringExtra(QLTaiKhoanActivity.EXTRA_DATA);
+//
+//                // Sử dụng kết quả result bằng cách hiện Toast
+//                uri= Uri.parse(getIntent().getStringExtra("anh"));
+//                if(uri==null){
+//                    circleImageView.setImageResource(R.drawable.doanchibinh);
+//                }else {
+//                    circleImageView.setImageURI(uri);
+//                }
+//                Toast.makeText(this, "Result: " + result, Toast.LENGTH_LONG).show();
+//            } else {
+//                // DetailActivity không thành công, không có data trả về.
+//            }
+//        }
+//    }
 }

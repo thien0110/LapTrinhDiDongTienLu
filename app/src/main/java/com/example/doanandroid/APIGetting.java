@@ -12,7 +12,7 @@ import dmax.dialog.SpotsDialog;
 
 import static dmax.dialog.SpotsDialog.*;
 
-public class APIGetting extends AsyncTask<String,String,String> {
+public class APIGetting extends AsyncTask<String,String,String> {//Để xử lý cái lấy JSON với chuyển dữ liệu cho màn chơi
     private Context m_con;
     public  APIGetting(Context con)
     {

@@ -73,8 +73,6 @@ public class DangKyActivity extends AppCompatActivity {
 
 //            }else Toast.makeText(DangKyActivity.this, "Mật khẩu không trùng khớp", Toast.LENGTH_SHORT).show();
         }
-//            String data="{"+txt_taikhoan.getText().toString()+"}";
-//            Submit(data);
 
     }
     public void ThemTaiKhoan(String url){
@@ -103,7 +101,6 @@ public class DangKyActivity extends AppCompatActivity {
                 Map<String,String>params=new HashMap<>();
                 params.put("tendangnhap",txt_taikhoan.getText().toString().trim());
                 params.put("matkhau",txt_mk.getText().toString().trim());
-                params.put("matkhaucf",txt_mkcf.getText().toString().trim());
                 params.put("email",txt_email.getText().toString().trim());
 
                 return params;

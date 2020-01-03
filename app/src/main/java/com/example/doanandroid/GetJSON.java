@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class GetJSON {
+public class GetJSON {//cái này của KhoaPham
     static String getAPI(String string){
         StringBuilder content=new StringBuilder();
         try {

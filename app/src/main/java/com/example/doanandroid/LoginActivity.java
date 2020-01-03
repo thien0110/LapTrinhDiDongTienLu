@@ -109,13 +109,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         boolean mk = false;
         String tk="";
         String em="";
-        for (Player p:lstPlayer){
+        for (Player p:lstPlayer){//So sánh tk trên csdl
             if(p.mAcc.equals(txt_user.getText().toString())){
                 tk=p.mAcc;
                 em=p.mEmail;
             }
             boolean valuate = BCrypt.checkpw(txt_pass.getText().toString(),p.mPass);
-            if(valuate){
+            if(valuate){//so sánh mật khẩu trên csdl
                 mk= true;
             }
         }

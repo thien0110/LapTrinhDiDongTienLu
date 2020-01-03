@@ -72,6 +72,7 @@ public class InGameActivity extends AppCompatActivity {
     Button mpa1,mpa2,mpa3,mpa4;
     ArrayList<Money> arrayList = new ArrayList<>();
     int demtym=0;
+    MediaPlayer mediaPlayerNen;
 
 
     @Override
@@ -81,15 +82,14 @@ public class InGameActivity extends AppCompatActivity {
         Anhxa();
         showQuestion(pos);
         CountDown();
-//        nhacNen();
+        nhacNen();
         LightStick();
         LightCircle();
         DropDollar();
-//        recyclerView();
-
-
 
     }
+
+    //Hàm ánh xạ tất cả các View
     public void Anhxa(){
         timeCountDown= findViewById(R.id.textViewTime);
         m_NdCauhoi= findViewById(R.id.textViewNdCauHoi);
@@ -109,23 +109,25 @@ public class InGameActivity extends AppCompatActivity {
         tim3=findViewById(R.id.tym3);
         tim4=findViewById(R.id.tym4);
         tim5=findViewById(R.id.tym5);
+        mediaPlayerNen=MediaPlayer.create(InGameActivity.this,R.raw.soruekranigenel);
     }
+    //Lấy dữ liệu từ JSON
     private Boolean get_lstQuestion(String jSonString){
         try {
-            lstQuestion=new ArrayList();
-            JSONArray jr = new JSONArray(jSonString);
+            lstQuestion=new ArrayList(); //Tạo mảng chứa các câu hỏi
+            JSONArray jr = new JSONArray(jSonString);//Mảng câu hỏi trong JSON
             for(int i=0;i<jr.length();i++)
             {
-                JSONObject jb = jr.getJSONObject(i);
+                JSONObject jb = jr.getJSONObject(i);//Câu hỏi thứ i trong Mảng câu hỏi trong JSON
                 QuestionOBJ quiz=new QuestionOBJ();
-                quiz.NoiDung = jb.getString("noi_dung");
+                quiz.NoiDung = jb.getString("noi_dung");// gán vào model
                 quiz.DapAn1 = jb.getString("phuong_an_A");
                 quiz.DapAn2 = jb.getString("phuong_an_B");
                 quiz.DapAn3 = jb.getString("phuong_an_C");
                 quiz.DapAn4 = jb.getString("phuong_an_D");
                 quiz.DapAn = jb.getString("dap_an");
                 quiz.Chon="0";
-                lstQuestion.add(quiz);
+                lstQuestion.add(quiz);//thêm vào mảng
             }
             Collections.shuffle(lstQuestion);
             return true;
@@ -135,9 +137,10 @@ public class InGameActivity extends AppCompatActivity {
         }
 
     }
-    public void showQuestion(int pos){
+    //Hiển thị câu hỏi vào View
+    public void showQuestion(int pos){//Gán câu hỏi vào các View
         Intent intent = getIntent();
-        String jSonString = intent.getStringExtra("message");
+        String jSonString = intent.getStringExtra("message");//dữ liệu câu hỏi ở trong đây
         if(get_lstQuestion(jSonString)==true)
         {
 
@@ -156,18 +159,22 @@ public class InGameActivity extends AppCompatActivity {
 
 
     }
+
+    //Sự kiện Tạm dừng game
     public void onClickPause(View view){
-        final Dialog dialogPause=new Dialog(this);
+        final Dialog dialogPause=new Dialog(this);//Dialog đã được custom trong file xml
         dialogPause.setContentView(R.layout.dialog_pause);
         Button buttonResume= dialogPause.findViewById(R.id.buttonResume);
         Button buttonNewGame= dialogPause.findViewById(R.id.buttonNewgame);
         Button buttonExit= dialogPause.findViewById(R.id.buttonExit);
+
 
         buttonResume.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialogPause.dismiss();
                 ResumeTimer();
+
             }
         });
 
@@ -176,7 +183,7 @@ public class InGameActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(InGameActivity.this,LinhVucActivity.class);
                 startActivity(intent);
-
+                stopnhacnen();
             }
         });
 
@@ -184,6 +191,7 @@ public class InGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finishAffinity();
+                stopnhacnen();
             }
         });
         PauseTimer();
@@ -191,7 +199,8 @@ public class InGameActivity extends AppCompatActivity {
     }
 
 
-    //Xử lý trả lời câu hỏi
+//Xử lý trả lời câu hỏi
+    //Hiện dialog thắng cuộc (Không sài)
     public void DialogWin(){
 
         AlertDialog.Builder alertDialogBuilderwin = new AlertDialog.Builder(InGameActivity.this);
@@ -215,34 +224,39 @@ public class InGameActivity extends AppCompatActivity {
                 });
         alertDialogBuilderwin.show();
     }
+
+    //Hiện dialog Thua cuộc
     public void DialogGameOver(){
+        //Khởi tạo dialog
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(InGameActivity.this);
-        alertDialogBuilder
-                .setTitle("Game Over! ")
-                .setMessage("Rất tiếc! Bạn phải ra về với số tiền thưởng là "+luutien+"$")
-                .setCancelable(false)
+        alertDialogBuilder //Set thuộc tính
+                .setTitle("Game Over! ")//set tiêu đề
+                .setMessage("Rất tiếc! Bạn phải ra về với số tiền thưởng là "+luutien+"$")//sét nội dung thông báo
+                .setCancelable(false)//không cho diaglog có cancel
                 .setPositiveButton("Tiếp ván mới", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(DialogInterface dialog, int which) {//tạo button new game
+                        stopnhacnen();
                         startActivity(new Intent(getApplicationContext(), LinhVucActivity.class));
                     }
                 })
                 .setNegativeButton("Không chơi nữa", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //System.exit(0);
+                    public void onClick(DialogInterface dialog, int which) {//Tạo button exit
+                        //System.exit(0); Bỏ
+                        stopnhacnen();
                         finishAffinity();
                     }
                 });
-        alertDialogBuilder.show();
+        alertDialogBuilder.show();//show dialog
     }
     public  void onClickTraLoi(View view) {
-        switch (view.getId()){
-            case R.id.buttonDA1:
-                if(lstQuestion.get(pos).DapAn.equals("1")){
+        switch (view.getId()){//Lấy id xem mình đã nhấn vào View nào
+            case R.id.buttonDA1://Nếu nhấn vào View chứa button đáp án A
+                if(lstQuestion.get(pos).DapAn.equals("1")){ //Nếu bằng Đáp án đúng trong csdl
                     XulyDapAnDung(mpa1);
                 }
-                else
+                else //ngược lại
                 {
                     XuLyDapAnSai(mpa1);
                 }
@@ -270,31 +284,32 @@ public class InGameActivity extends AppCompatActivity {
                 break;
         }
 //        showQuestion(pos);
-        CancelCountDown();
+        CancelCountDown(); //hủy đếm ngược
 //        CountDown();
-
+        //Không cho nhấn vào bất cứ đâu trên màn hình
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
     public void XulyDapAnDung(final View view){
-
+        //Khởi tạo các hiệu ứng âm thanh
         final Animation animSoCauXoay= AnimationUtils.loadAnimation(this, R.anim.anim_socau_xoay);
         final Animation animation=new AlphaAnimation(1,0);
-        animation.setDuration(500);
-        animation.setRepeatCount(Animation.INFINITE);
-        animation.setRepeatMode(Animation.REVERSE);
+        animation.setDuration(500);//số giây hiệu ứng xảy ra cho mỗi lần
+        animation.setRepeatCount(Animation.INFINITE);//Cho nó luôn luôn lặp lại
+        animation.setRepeatMode(Animation.REVERSE);//cho nó nháy đẹp hơn
         final MediaPlayer clapyourhand=MediaPlayer.create(InGameActivity.this,R.raw.vo_tay);
         final MediaPlayer chonsound=MediaPlayer.create(InGameActivity.this,R.raw.chon_sound);
         final MediaPlayer winround=MediaPlayer.create(InGameActivity.this,R.raw.win_round);
-        new CountDownTimer(4000,1000){
+        new CountDownTimer(4000,1000){ //làm cho dừng các hoạt động 4s, chỉ làm những hoạt động được viết trong đây,
+            // Chưa biết mình đúng, đang còn hồi hộp
             @Override
             public void onTick(long l) {
-                view.startAnimation(animation);
-                view.setBackgroundResource(R.drawable.custom_button_dapan_gandung);
-                chonsound.start();
+                view.startAnimation(animation);//bật hiệu ứng cho button(Nhấp nháy Nhấp nháy)
+                view.setBackgroundResource(R.drawable.custom_button_dapan_gandung);//đổi màu đáp án cho phù hợp
+                chonsound.start();//bật âm thanh cho phù hợp
             }
             @Override
             public void onFinish() {
-                new CountDownTimer(4000,1000){
+                new CountDownTimer(4000,1000){//Tiếp tục xử lý đáp án đúng: biết là mình đúng :))
                     @Override
                     public void onTick(long l) {
                         chonsound.stop();
@@ -308,10 +323,10 @@ public class InGameActivity extends AppCompatActivity {
                     public void onFinish() {
                         clapyourhand.stop();
                         view.setBackgroundResource(R.drawable.custom_button_dapan);
-                        pos++;
-                        ch++;
-                        tien=tien+1000;
-                        luutien=tien;
+                        pos++;//để nhảy câu hỏi
+                        ch++;//là số câu ở giữa màn hình
+                        tien=tien+1000;//tiền thường tăng
+                        luutien=tien;//lưu lại tiền
                         Diem.setText(tien+"$");
                         SoCau.setText(ch+"");
 
@@ -319,33 +334,29 @@ public class InGameActivity extends AppCompatActivity {
                         showQuestion(pos);
                         CancelCountDown();
                         CountDown();
-                        mpa1.setVisibility(View.VISIBLE);
-                        mpa2.setVisibility(View.VISIBLE);
+                        mpa1.setVisibility(View.VISIBLE);// nếu có bị dùng trợ giúp 50:50
+                        mpa2.setVisibility(View.VISIBLE);//Thì hiển thị lại đáp án bị loại bỏ
                         mpa3.setVisibility(View.VISIBLE);
                         mpa4.setVisibility(View.VISIBLE);
-                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);//cho phép nhấn vào màn hình lại
 
-//                        FragmentBangDiem fragmentBangDiem= (FragmentBangDiem) getSupportFragmentManager().findFragmentById(R.id.fragmentDangDiem);
-//                        fragmentBangDiem.UpScore(pos);
-
-
-//                       setItemAdapter(pos);
-//                       arrayList.clear();
-//                       recyclerView();
                     }
                 }.start();
             }
         }.start();
     }
-    public void XuLyDapAnSai(final View view){
+    public void XuLyDapAnSai(final View view){//Như xử lý đáp án đúng
         final Animation animation=new AlphaAnimation(1,0);
         animation.setDuration(500);
         animation.setRepeatCount(Animation.INFINITE);
         animation.setRepeatMode(Animation.REVERSE);
+        final MediaPlayer chonsound=MediaPlayer.create(InGameActivity.this,R.raw.chon_sound);
+        final MediaPlayer saisound=MediaPlayer.create(InGameActivity.this,R.raw.sai);
         new CountDownTimer(4000,1000){
             @Override
             public void onTick(long l) {
                 view.startAnimation(animation);
+                chonsound.start();
                 view.setBackgroundResource(R.drawable.custom_button_dapan_gandung);
             }
             @Override
@@ -354,6 +365,7 @@ public class InGameActivity extends AppCompatActivity {
                     @Override
                     public void onTick(long l) {
                         animation.cancel();
+                        saisound.start();
                         view.setBackgroundResource(R.drawable.custom_button_dapan_gandung);
                         switch (lstQuestion.get(pos).DapAn){
                             case "1":mpa1.setBackgroundResource(R.drawable.custom_button_dapan_dung);
@@ -372,7 +384,7 @@ public class InGameActivity extends AppCompatActivity {
 
                         switch (demtym){
                             case 1:tim5.setVisibility(View.INVISIBLE);
-                                xlxlxl();
+                                xlxlxl();//Xử lý chuyển câu hỏi mới và đủ thứ tại thằng case 5 nó khác
                             break;
                             case 2:tim4.setVisibility(View.INVISIBLE);
                                 xlxlxl();
@@ -385,7 +397,8 @@ public class InGameActivity extends AppCompatActivity {
                                 break;
 
                             case 5:CancelCountDown();
-                                DialogGameOver();
+                                DialogGameOver();//Thua luôn hết mạng rồi
+                                stopnhacnen();
                                 break;
                         }
 
@@ -397,7 +410,7 @@ public class InGameActivity extends AppCompatActivity {
 
     }
 
-    public void xlxlxl(){
+    public void xlxlxl(){//Xử lý chuyển câu hỏi mới và đủ thứ tại thằng case 5 nó khác
         pos++;
         ch++;
         SoCau.setText(ch+"");
@@ -421,14 +434,14 @@ public class InGameActivity extends AppCompatActivity {
     //Xử lý quyền trợ giúp
     public void onClickBuyQues(View view) {
     }
-    public void onClickReset(View view) {
-//        Random random=new Random();
+    public void onClickReset(View view) {//Đổi câu hỏi mới
+//        Random random=new Random(); // Khỏi random luôm
 //        int i=random.nextInt(3)+1;
         pos=pos+1;
         if(pos>=lstQuestion.size()) pos = lstQuestion.size()-(lstQuestion.size()-1);
         showQuestion(pos);
-        btn_reset.setImageResource(R.drawable.reset_icon_x);
-        btn_reset.setEnabled(false);
+        btn_reset.setImageResource(R.drawable.reset_icon_x);//Đổi thành hình bị x bỏ
+        btn_reset.setEnabled(false);//Cho khỏi nhấn được nữa
 
     }
     public void onClickCall(View view){
@@ -437,28 +450,28 @@ public class InGameActivity extends AppCompatActivity {
         Call.setEnabled(false);
 
     }
-    public void onClickPeople(View view){
-        DialogPeople();
+    public void onClickPeople(View view){//Trợ giúp hỏi ý  kiến khán giả
+        DialogPeople();//Xem hàm dialog People
     }
     public void onClick50(View view){
-        LinkedHashMap<String, Button> list = new LinkedHashMap<>();
+        LinkedHashMap<String, Button> list = new LinkedHashMap<>();//Tạo cái mảng chứa 4 View đáp án
         list.put("1", mpa1);
         list.put("2", mpa2);
         list.put("3", mpa3);
         list.put("4", mpa4);
 
-        list.remove(lstQuestion.get(pos).DapAn);
-        list.remove(list.keySet().toArray()[new Random().nextInt(2)]);
+        list.remove(lstQuestion.get(pos).DapAn);//Xóa cái đáp án đúng khỏi mảng
+        list.remove(list.keySet().toArray()[new Random().nextInt(2)]);//Xóa ngẫu nhiên thêm 1 thằng nữa
 
         for(Map.Entry<String, Button> item : list.entrySet()){
             item.getValue().setVisibility(View.INVISIBLE);
 
-        }
+        }//Ẩn 2 thằng trong mảng đi, xong trợ giúp 50:50
         btn_50.setImageResource(R.drawable.nam050_icon_x);
         btn_50.setEnabled(false);
 
     }
-    public void DialogCalling() {
+    public void DialogCalling() {//Random Thằng đáp án đúng và thằng random 4 đáp án => đáp án đúng 62.5% xuất hiện
         final Dialog dialogCall=new Dialog(this);
         dialogCall.setContentView(R.layout.dialog_calling);
         Button imageButtonEndCall= dialogCall.findViewById(R.id.buttonEndCall);
@@ -487,7 +500,7 @@ public class InGameActivity extends AppCompatActivity {
         });
         dialogCall.show();
     }
-    public void DialogPeople (){
+    public void DialogPeople (){//Khởi tạo thư viện barchar
         final Dialog dialogPeople=new Dialog(this);
 
         dialogPeople.setContentView(R.layout.dialog_people);
@@ -505,6 +518,7 @@ public class InGameActivity extends AppCompatActivity {
         barChart.animateXY(1,3000);
         ArrayList<BarEntry>barEntries=new ArrayList<>();
         Random random=new Random();
+        //Random các % cột đáp án
         int da1=random.nextInt(101);
         int da2=random.nextInt(101-da1);
         int da3=random.nextInt(101-(da1+da2));
@@ -530,22 +544,23 @@ public class InGameActivity extends AppCompatActivity {
 
     //Xử lý đồng hồ đém ngược
     public void CountDown() {
+        //Hiệu ứng
         final Animation animTimerNhapnhay= AnimationUtils.loadAnimation(this, R.anim.anim_timer_nhapnhay);
         final Animation animTimerNhapnhaycucmanh= AnimationUtils.loadAnimation(this, R.anim.anim_timer_nhapnhaycucmanh);
         final Animation animTimerXoay= AnimationUtils.loadAnimation(this, R.anim.anim_timer_xoay);
-        countDownTimer=new CountDownTimer(/*Integer.parseInt(timeCountDown.getText().toString())*1000*/30000,1000) {
+        countDownTimer=new CountDownTimer(30000,1000) {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onTick(long l) {
                 if(isPaused){
-                    cancel();
+                    cancel();//gán cho isPaused thì hủy đếm
                 }else {
-                    timeCountDown.setText(""+l/1000);
-                    timeRemaining=l;
+                    timeCountDown.setText(""+l/1000); //cho cái đồng hồ hiển thị số
+                    timeRemaining=l;//Lưu lại thời gian để tạm dừng
                     timeCountDown.startAnimation(animTimerNhapnhay);
                     img_timer.startAnimation(animTimerXoay);
                     int a=Integer.parseInt((String) timeCountDown.getText());
-                    if(a<6){
+                    if(a<6){//nếu đếm tới 5 thì chuyển thành màu đỏ cho nó vui
                         timeCountDown.startAnimation(animTimerNhapnhaycucmanh);
                         timeCountDown.setTextColor(Color.rgb(200,0,0));
                     }else {
@@ -555,9 +570,9 @@ public class InGameActivity extends AppCompatActivity {
             }
             @Override
             public void onFinish() {
-                timeCountDown.setText("0");
+                timeCountDown.setText("0");//Hết giờ thì gán cho nó bằng 0, tại hết giờ nó vẫn để 1
                 //Toast.makeText(InGameActivity.this,"GAMEOVER",Toast.LENGTH_SHORT).show();
-                demtym++;
+                demtym++;//Xử lý cái trái tym(mạng), Khi hết giờ thì vẫn chuyển sang câu mới và mất 1 mạng
 
                 switch (demtym){
                     case 1:tim5.setVisibility(View.INVISIBLE);
@@ -583,8 +598,8 @@ public class InGameActivity extends AppCompatActivity {
     }
     public void PauseTimer(){
         isPaused=true;
-    }
-    public void ResumeTimer(){
+    }//Dừng đếm ngược
+    public void ResumeTimer(){//Tiếp tục đếm ngược
         isPaused = false;
         final Animation animTimerNhapnhay= AnimationUtils.loadAnimation(this, R.anim.anim_timer_nhapnhay);
         final Animation animTimerNhapnhaycucmanh= AnimationUtils.loadAnimation(this, R.anim.anim_timer_nhapnhaycucmanh);
@@ -628,10 +643,13 @@ public class InGameActivity extends AppCompatActivity {
 
 
     //Xử Lý Hiệu ứng hình ảnh, Nhạc nhẽo
+    //Trong đây toàn khỏi tạo hông à
     public void nhacNen(){
-        MediaPlayer mediaPlayerNen=MediaPlayer.create(InGameActivity.this,R.raw.soruekranigenel);
         mediaPlayerNen.start();
         mediaPlayerNen.setLooping(true);
+    }
+    public void stopnhacnen(){
+        mediaPlayerNen.stop();
     }
     public void LightStick (){
         ImageView imageViewLight;

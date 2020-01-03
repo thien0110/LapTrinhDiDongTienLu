@@ -41,6 +41,7 @@
         android:textColor="#fff"
         android:layout_marginBottom="10dp"
         android:text="Đổi hình đại diện"
+        android:onClick="DoiAvatar"
         android:layout_centerInParent="true"
         android:layout_below="@id/imageViewAvatar"
         />
@@ -87,6 +88,7 @@
             android:id="@+id/editTextMatKhau"
             android:layout_width="250dp"
             android:layout_height="50dp"
+            android:inputType="textPassword"
             android:background="@drawable/custom_button_dapan" />
         <EditText
             android:textAlignment="center"
@@ -94,6 +96,7 @@
             android:textColor="#fff"
             android:textColorHint="#A59D9D"
             android:hint="Xác Nhận Mật Khẩu"
+            android:inputType="textPassword"
             android:id="@+id/editTextXacNhanMatKhau"
             android:layout_width="250dp"
             android:layout_height="50dp"
