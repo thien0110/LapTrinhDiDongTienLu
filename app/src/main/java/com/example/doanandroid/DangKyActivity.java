@@ -2,6 +2,7 @@ package com.example.doanandroid;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -24,12 +25,17 @@ import com.example.doanandroid.model.Player;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import ml.huytools.lib.API.ApiOutput;
+import ml.huytools.lib.API.ApiParameters;
+import ml.huytools.lib.API.ApiProvider;
 
 public class DangKyActivity extends AppCompatActivity {
 
@@ -63,141 +69,36 @@ public class DangKyActivity extends AppCompatActivity {
         mk=txt_mk.getText().toString().trim();
         mkcf=txt_mkcf.getText().toString().trim();
         emal=txt_email.getText().toString().trim();
+        String hash = BCrypt.hashpw(mk, BCrypt.gensalt());
         if(tk.isEmpty()||mk.isEmpty()||mkcf.isEmpty()||emal.isEmpty()){
             Toast.makeText(DangKyActivity.this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
         }
         else{
+            if(mk.equals(mkcf)){
+                ApiParameters apiParameters= new ApiParameters();
+                apiParameters.add("tendangnhap",tk);
+                apiParameters.add("matkhau",hash);
+                apiParameters.add("email",emal);
+                apiParameters.add("hinhdaidien","null");
+                ApiProvider.Async.POST("http://192.168.202.2:8000/api/ThemNguoiChoi").SetParams(apiParameters).Then(new ApiProvider.Async.Callback() {
+                    @Override
+                    public void OnAPIResult(ApiOutput output, int requestCode) {
+                        if(output.Status==false){
+                            Toast.makeText(DangKyActivity.this,"Tài Khoản Đã Tồn Tại" , Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(DangKyActivity.this, "Thêm tài khoản thành công", Toast.LENGTH_SHORT).show();
+                            Intent intent= new Intent(DangKyActivity.this,LoginActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+                });
+            }else {
+                Toast.makeText(DangKyActivity.this, "Mật khẩu không trùng khớp", Toast.LENGTH_SHORT).show();
+            }
 
-                ThemTaiKhoan("http://192.168.202.2:8000/api/ThemNguoiChoi");
-                Toast.makeText(DangKyActivity.this, "Thêm tài khoản thành công", Toast.LENGTH_SHORT).show();
-
-//            }else Toast.makeText(DangKyActivity.this, "Mật khẩu không trùng khớp", Toast.LENGTH_SHORT).show();
         }
 
     }
-    public void ThemTaiKhoan(String url){
-        RequestQueue requestQueue=Volley.newRequestQueue(this);
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                JSONObject object = null;
-                try {
-                    object = new JSONObject(response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Toast.makeText(getApplicationContext(),object.toString(),Toast.LENGTH_SHORT).show();
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(DangKyActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }
-        ){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String>params=new HashMap<>();
-                params.put("tendangnhap",txt_taikhoan.getText().toString().trim());
-                params.put("matkhau",txt_mk.getText().toString().trim());
-                params.put("email",txt_email.getText().toString().trim());
-
-                return params;
-
-            }
-        };
-        requestQueue.add(stringRequest);
-    }
-//    public void Submit(String data){
-//        tk=txt_taikhoan.getText().toString();
-//        mk=txt_mk.getText().toString();
-//        mkcf=txt_mkcf.getText().toString();
-//        emal=txt_email.getText().toString();
-//        final String savedata=data;
-//        String URL="http://192.168.202.2:8000/api/NguoiChoiJson";
-//        RequestQueue requestQueue=Volley.newRequestQueue(getApplicationContext());
-//        StringRequest stringRequest=new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//                try {
-//                    JSONObject object = new JSONObject(response);
-//                    Toast.makeText(getApplicationContext(),object.toString(),Toast.LENGTH_SHORT).show();
-//                } catch (JSONException e) {
-//                    Toast.makeText(getApplicationContext(),"Server Error",Toast.LENGTH_SHORT).show();
-//                }
-//
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Toast.makeText(getApplicationContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
-//
-//            }
-//        }){
-//            @Override
-//            public String getBodyContentType() {
-//                return "application/json: charset=utf-8";
-//            }
-//
-//            @Override
-//            public byte[] getBody() throws AuthFailureError {
-//
-//                try {
-//                    return savedata==null?null:savedata.getBytes("utf-8");
-//                } catch (UnsupportedEncodingException e) {
-//                    return null;
-//                }
-//            }
-//
-////            @Override
-////            protected Map<String, String> getParams() throws AuthFailureError {
-////                Map<String,String>params=new HashMap<String,String>();
-////                params.put("tendangnhap",tk);
-////                params.put("matkhau",mk);
-////                params.put("email",emal);
-////
-////                return params;
-////            }
-//        };
-//        requestQueue.add(stringRequest);
-//    }
-//    private class ReadJSONOBJ extends AsyncTask<String,Void,String> {
-//
-//        @Override
-//        protected String doInBackground(String... strings) {
-//            return GetJSON.getAPI(strings[0]);
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String s) {
-//
-//
-//            try {
-//                lstPlayer=new ArrayList<>();
-//                JSONArray jsonArray=new JSONArray(s);
-//                for(int i=0;i<jsonArray.length();i++){
-//                    JSONObject jsonObject=jsonArray.getJSONObject(i);
-//                    Player player=new Player();
-//                    player.mAcc=jsonObject.getString("ten_dang_nhap");
-//                    player.mPass =jsonObject.getString("mat_khau");
-//                    player.mEmail =jsonObject.getString("Email");
-//                    player.mAvatar =jsonObject.getString("hinh_dai_dien");
-//                    player.mHighScore =jsonObject.getString("diem_cao_nhat");
-//                    player.mCredit =jsonObject.getString("credit");
-//                    lstPlayer.add(player);
-//
-//                }
-//
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-////            Toast.makeText(LoginActivity.this, s,Toast.LENGTH_SHORT).show();
-//            super.onPostExecute(s);
-//        }
-//
-//    }
 
 
 

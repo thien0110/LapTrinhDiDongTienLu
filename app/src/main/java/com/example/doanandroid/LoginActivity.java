@@ -65,6 +65,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private GoogleApiClient mGoogleApiClient;
     int RC_SIGN_IN=001;
     private static final String TAG = "SignInActivity";
+    public static Player playernow=new Player();
 
 
 
@@ -113,6 +114,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             if(p.mAcc.equals(txt_user.getText().toString())){
                 tk=p.mAcc;
                 em=p.mEmail;
+                playernow.mAcc=p.mAcc;
+                playernow.mCredit=p.mCredit;
+                playernow.mHighScore=p.mHighScore;
+                playernow.mEmail=p.mEmail;
+                playernow.mAvatar=p.mAvatar;
+                playernow.mPass=p.mPass;
             }
             boolean valuate = BCrypt.checkpw(txt_pass.getText().toString(),p.mPass);
             if(valuate){//so sánh mật khẩu trên csdl
@@ -124,7 +131,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 if(txt_user.getText().toString().equals(tk)){
                     if(mk==true){
                         Toast.makeText(LoginActivity.this,"Đăng nhập thành công",Toast.LENGTH_SHORT).show();
-
                         Intent intent=new Intent(LoginActivity.this,MainActivity.class);
                         intent.putExtra("tendn",tk);
                         intent.putExtra("email",em);
@@ -142,6 +148,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             txt_pass.setHint("Bạn chưa nhập mật khẩu");
         }
     }
+
+
     public void LightStick (){
         ImageView imageViewLight;
         ImageView imageViewLight2;
@@ -153,8 +161,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         imageViewLight.startAnimation(animationLight);
         imageViewLight2.startAnimation(animationLight2);
     }
-
-
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d("Failed",connectionResult+"");
@@ -166,9 +172,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         Log.d("KET NOI THANH CONG",mGoogleApiClient.isConnected()+"");
 
     }
-
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -17,7 +17,6 @@ public class APIQuestion {
             String line="";
             while ((line=bufferedReader.readLine())!=null){
                 content.append(line);
-
             }
             bufferedReader.close();
         } catch (MalformedURLException e) {

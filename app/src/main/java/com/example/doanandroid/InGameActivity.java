@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import com.example.doanandroid.adapter.MoneyAdapter;
 import com.example.doanandroid.model.Money;
+import com.example.doanandroid.model.Player;
 import com.example.doanandroid.model.QuestionOBJ;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
@@ -67,11 +68,13 @@ public class InGameActivity extends AppCompatActivity {
     Handler handler;
     ImageButton Call,People,btn_50,btn_reset;
     CountDownTimer countDownTimer=null;
-    TextView m_NdCauhoi,timeCountDown,Diem,SoCau;
+    TextView m_NdCauhoi,timeCountDown,Diem,SoCau,credit;
     ImageView img_timer,tim1,tim2,tim3,tim4,tim5;
     Button mpa1,mpa2,mpa3,mpa4;
     ArrayList<Money> arrayList = new ArrayList<>();
     int demtym=0;
+//    Player player1=new Player().
+
     MediaPlayer mediaPlayerNen;
 
 
@@ -79,6 +82,7 @@ public class InGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_game);
+//        credit.setText();
         Anhxa();
         showQuestion(pos);
         CountDown();
@@ -110,6 +114,7 @@ public class InGameActivity extends AppCompatActivity {
         tim4=findViewById(R.id.tym4);
         tim5=findViewById(R.id.tym5);
         mediaPlayerNen=MediaPlayer.create(InGameActivity.this,R.raw.soruekranigenel);
+        credit=findViewById(R.id.textViewSoTiem);
     }
     //Lấy dữ liệu từ JSON
     private Boolean get_lstQuestion(String jSonString){
